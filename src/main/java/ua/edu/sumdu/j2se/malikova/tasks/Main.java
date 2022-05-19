@@ -7,7 +7,7 @@ public class Main {
         Task task1 = new Task("first task", 12);
         Task task2 = new Task("second task", 5,100,20);
         task2.setActive(true);
-        int a = task2.nextTimeAfter(15);
+        int a = task2.nextTimeAfter(35);
         System.out.println(task1);
         System.out.println(task2);
         String b = task1.getTitle();

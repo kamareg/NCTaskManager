@@ -23,6 +23,9 @@ public class Task {
      */
 
     public Task(String title, int time) {
+        if (time < 0) {
+            throw new IllegalArgumentException("Час не може бути від'ємним");
+        }
         this.title = title;
         this.time = time;
         setActive(false);
@@ -40,6 +43,9 @@ public class Task {
      */
 
     public Task(String title, int start, int end, int interval) {
+        if (start < 0 || end < 0 || interval < 0) {
+            throw new IllegalArgumentException("Час не може бути від'ємним");
+        }
         this.title = title;
         this.start = start;
         this.end = end;
@@ -112,6 +118,9 @@ public class Task {
      */
 
     public void setTime(int time) {
+        if (time < 0) {
+            throw new IllegalArgumentException("Час не може бути від'ємним");
+        }
         if (isRepeated()) {
             setRepeated(false);
         }
@@ -174,6 +183,9 @@ public class Task {
      */
 
     public void setTime(int start, int end, int interval) {
+        if (start < 0 || end < 0 || interval < 0) {
+            throw new IllegalArgumentException("Час не може бути від'ємним");
+        }
         if (!isRepeated()) {
             setRepeated(true);
         }
@@ -211,6 +223,9 @@ public class Task {
      */
 
     public int nextTimeAfter(int current) {
+        if (current < 0) {
+            throw new IllegalArgumentException("Час не може бути від'ємним");
+        }
         if (!this.isActive()) {
             return -1;
         } else if (!this.isRepeated()) {

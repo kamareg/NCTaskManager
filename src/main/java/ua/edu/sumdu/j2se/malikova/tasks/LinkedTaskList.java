@@ -1,9 +1,5 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
-import org.w3c.dom.Node;
-
-import java.util.Arrays;
-
 public class LinkedTaskList {
     private Link first;
 

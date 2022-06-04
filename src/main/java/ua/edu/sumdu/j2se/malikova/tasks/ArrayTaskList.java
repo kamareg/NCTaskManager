@@ -10,6 +10,7 @@ public class ArrayTaskList extends AbstractTaskList {
         super();
     }
 
+    @Override
     public void add(Task task) {
         if (task == null) {
             throw new IllegalArgumentException("Потрібно ввести задачу");

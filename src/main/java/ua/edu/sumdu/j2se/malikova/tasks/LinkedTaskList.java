@@ -1,6 +1,6 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
-public class LinkedTaskList {
+public class LinkedTaskList extends AbstractTaskList{
     private Link first;
 
     private static class Link {

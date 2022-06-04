@@ -1,4 +1,7 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
-public class AbstractTaskList {
+public abstract class AbstractTaskList {
+    public void add (Task task){}
+
+
 }

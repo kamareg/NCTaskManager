@@ -2,7 +2,7 @@ package ua.edu.sumdu.j2se.malikova.tasks;
 
 import java.util.Arrays;
 
-public class ArrayTaskList {
+public class ArrayTaskList extends AbstractTaskList {
     private Task[] array = new Task[10];
     private int counter;
 

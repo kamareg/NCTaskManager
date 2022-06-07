@@ -2,14 +2,15 @@ package ua.edu.sumdu.j2se.malikova.tasks;
 
 import java.util.Arrays;
 
-public class ArrayTaskList {
+public class ArrayTaskList extends AbstractTaskList {
     private Task[] array = new Task[10];
     private int counter;
 
     public ArrayTaskList() {
-        super();
+        this.type = ListTypes.types.ARRAY;
     }
 
+    @Override
     public void add(Task task) {
         if (task == null) {
             throw new IllegalArgumentException("Потрібно ввести задачу");
@@ -21,6 +22,7 @@ public class ArrayTaskList {
         counter++;
     }
 
+    @Override
     public boolean remove(Task task) {
         if (task == null) {
             throw new IllegalArgumentException("Потрібно ввести задачу");
@@ -42,6 +44,7 @@ public class ArrayTaskList {
         return false;
     }
 
+    @Override
     public int size() {
         int countingTasks = 0;
         for (int i = 0; i < array.length; i++) {
@@ -54,6 +57,7 @@ public class ArrayTaskList {
 
     }
 
+    @Override
     public Task getTask(int index) {
         if (index < 0 || index >= array.length) {
             throw new IndexOutOfBoundsException("Необхідно ввести допустиме значення");
@@ -61,24 +65,11 @@ public class ArrayTaskList {
         return array[index];
     }
 
-    public ArrayTaskList incoming(int from, int to) {
-        if (from < 0 || from > to) {
-            throw new IllegalArgumentException("Необхідно ввести допустимі значення");
-        }
-        ArrayTaskList incomingArray = new ArrayTaskList();
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] != null) {
-                if (array[i].nextTimeAfter(from) != (-1)) {
-                    if (array[i].nextTimeAfter(from) < to) {
-                        incomingArray.add(array[i]);
-                    }
-                }
-            }
-        }
-        return incomingArray;
-
-
+    @Override
+    public AbstractTaskList incoming(int from, int to) {
+        return super.incoming(from, to);
     }
+
 
     @Override
     public String toString() {

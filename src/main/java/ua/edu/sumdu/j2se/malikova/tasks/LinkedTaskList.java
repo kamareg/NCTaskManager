@@ -1,7 +1,12 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
-public class LinkedTaskList {
+public class LinkedTaskList extends AbstractTaskList {
     private Link first;
+
+
+    public LinkedTaskList() {
+        this.type = ListTypes.types.LINKED;
+    }
 
     private static class Link {
         public Task task;
@@ -12,6 +17,7 @@ public class LinkedTaskList {
         }
     }
 
+    @Override
     public void add(Task task) {
         if (task == null) {
             throw new IllegalArgumentException("Потрібно ввести задачу");
@@ -25,6 +31,7 @@ public class LinkedTaskList {
         }
     }
 
+    @Override
     public boolean remove(Task task) {
         if (task == null) {
             throw new IllegalArgumentException("Потрібно ввести задачу");
@@ -50,6 +57,7 @@ public class LinkedTaskList {
     }
 
 
+    @Override
     public int size() {
         Link current = first;
         int counter = 0;
@@ -61,6 +69,7 @@ public class LinkedTaskList {
     }
 
 
+    @Override
     public Task getTask(int index) {
         if (index < 0 || index >= size()) {
             throw new IndexOutOfBoundsException("Необхідно ввести допустиме значення");
@@ -74,17 +83,9 @@ public class LinkedTaskList {
         return current.task;
     }
 
-    public LinkedTaskList incoming(int from, int to) {
-        if (from < 0 || from > to) {
-            throw new IllegalArgumentException("Необхідно ввести допустимі значення");
-        }
-        LinkedTaskList incomingList = new LinkedTaskList();
-        for (int i = 0; i < size(); i++) {
-            if (this.getTask(i) != null && this.getTask(i).nextTimeAfter(from) != (-1) && this.getTask(i).nextTimeAfter(from) < to) {
-                incomingList.add(this.getTask(i));
-            }
-        }
-        return incomingList;
+    @Override
+    public AbstractTaskList incoming(int from, int to) {
+        return super.incoming(from, to);
     }
 
     public String displayTasksLinkedTaskList() {

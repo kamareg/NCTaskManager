@@ -1,5 +1,9 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+
 public class LinkedTaskList extends AbstractTaskList {
     private Link first;
 
@@ -7,6 +11,12 @@ public class LinkedTaskList extends AbstractTaskList {
     public LinkedTaskList() {
         this.type = ListTypes.types.LINKED;
     }
+
+    @Override
+    public Iterator<Task> iterator() {
+        return null;
+    }
+
 
     private static class Link {
         public Task task;

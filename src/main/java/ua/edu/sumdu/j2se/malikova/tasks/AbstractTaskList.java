@@ -1,6 +1,6 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
-public abstract class AbstractTaskList {
+public abstract class AbstractTaskList implements Iterable<Task> {
     protected ListTypes.types type;
 
     public abstract void add(Task task);

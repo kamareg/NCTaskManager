@@ -1,6 +1,10 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
 public class ArrayTaskList extends AbstractTaskList {
     private Task[] array = new Task[10];
@@ -77,5 +81,54 @@ public class ArrayTaskList extends AbstractTaskList {
                 ", count=" + counter +
                 '}';
     }
+
+    @Override
+    public Iterator<Task> iterator() {
+        return new TaskIterator(this);
+    }
+
+    @Override
+    public void forEach(Consumer<? super Task> action) {
+        super.forEach(action);
+    }
+
+    @Override
+    public Spliterator<Task> spliterator() {
+        return super.spliterator();
+    }
+
+   /* @Override
+    public Iterator<Task> iterator() {
+        //Iterator<Task> iter = this.iterator();
+      //  return new Itr();
+        Iterator<Task> ListIterator = this.iterator();
+        ListIterator(ArrayTaskList array, int size {
+                    this.list = list;
+                  this.size = size;
+                    this.cursor = 0;
+                    isListIterator = false;
+                }
+        return new ListIterator<Task>(this, size()) {
+            @Override
+            public boolean hasNext() {
+                return (this.next()!=null);
+            }
+
+            @Override
+            public Task next() {
+                return null;
+            }
+        };
+    }
+
+    @Override
+    public void forEach(Consumer<? super Task> action) {
+        super.forEach(action);
+    }
+
+    @Override
+    public Spliterator<Task> spliterator() {
+        return super.spliterator();
+    }*/
 }
 

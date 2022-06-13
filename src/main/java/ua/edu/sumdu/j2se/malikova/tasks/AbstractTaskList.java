@@ -42,8 +42,8 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
         boolean equal = true;
         for (int i = 0; i < list.size(); i++) {
             equal = this.getTask(i).equals(list.getTask(i));
-         if (!equal) {
-             break;
+            if (!equal) {
+                break;
             }
         }
         return equal;

@@ -144,6 +144,6 @@ public class LinkedTaskList extends AbstractTaskList {
             linkedList.append(this.getTask(i));
             linkedList.append("\n");
         }
-                return String.valueOf(linkedList);
+        return String.valueOf(linkedList);
     }
 }

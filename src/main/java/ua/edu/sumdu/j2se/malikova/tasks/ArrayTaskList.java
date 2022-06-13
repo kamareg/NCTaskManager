@@ -97,6 +97,7 @@ public class ArrayTaskList extends AbstractTaskList {
             public boolean hasNext() {
                 return cursor < size();
             }
+
             @Override
             public Task next() {
                 lastReturned = current;
@@ -104,6 +105,7 @@ public class ArrayTaskList extends AbstractTaskList {
                 current = array[cursor];
                 return lastReturned;
             }
+
             @Override
             public void remove() {
                 if (lastReturned == null) {
@@ -119,13 +121,24 @@ public class ArrayTaskList extends AbstractTaskList {
     @Override
     public int hashCode() {
         int hash = 19;
-        return hash * super.hashCode();    }
+        return hash * super.hashCode();
+    }
 
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
     }
 
+    @Override
+    public Object clone() {
+        try {
+            ArrayTaskList result = (ArrayTaskList) super.clone();
+            result.array = array.clone();
+            return result;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }
 
 

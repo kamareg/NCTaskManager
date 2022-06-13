@@ -1,12 +1,9 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
 import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Consumer;
 
 public class LinkedTaskList extends AbstractTaskList {
     private Link first;
-
 
     public LinkedTaskList() {
         this.type = ListTypes.types.LINKED;
@@ -14,9 +11,38 @@ public class LinkedTaskList extends AbstractTaskList {
 
     @Override
     public Iterator<Task> iterator() {
-        return null;
-    }
+        return new Iterator<Task>() {
+            private Link current = first;
+            private int cursor = 0;
+            private Link lastReturned = null;
 
+            @Override
+            public boolean hasNext() {
+                return cursor < size();
+            }
+
+            @Override
+            public Task next() {
+                if (current == null) {
+                    throw new IndexOutOfBoundsException();
+                }
+                lastReturned = current;
+                current = current.next;
+                cursor++;
+                return lastReturned.task;
+            }
+
+            @Override
+            public void remove() {
+                if (lastReturned == null) {
+                    throw new IllegalStateException();
+                }
+                LinkedTaskList.this.remove(lastReturned.task);
+                lastReturned = null;
+                cursor--;
+            }
+        };
+    }
 
     private static class Link {
         public Task task;
@@ -66,7 +92,6 @@ public class LinkedTaskList extends AbstractTaskList {
         return false;
     }
 
-
     @Override
     public int size() {
         Link current = first;
@@ -77,7 +102,6 @@ public class LinkedTaskList extends AbstractTaskList {
         }
         return counter;
     }
-
 
     @Override
     public Task getTask(int index) {
@@ -98,18 +122,28 @@ public class LinkedTaskList extends AbstractTaskList {
         return super.incoming(from, to);
     }
 
-    public String displayTasksLinkedTaskList() {
-        for (int i = 0; i < size(); i++) {
-            System.out.println(this.getTask(i));
-        }
-        return "";
+    @Override
+    public int hashCode() {
+        int hash = 31;
+        return hash * super.hashCode();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 
     @Override
     public String toString() {
-        return "LinkedTaskList: " +
-                "size=" + this.size() +
-                " tasks" + this.displayTasksLinkedTaskList();
+        StringBuffer linkedList = new StringBuffer();
+        linkedList.append("Linked List with ");
+        linkedList.append(this.size());
+        linkedList.append(" tasks: \n");
+        for (int i = 0, y = 0; i < size(); i++) {
+            linkedList.append((++y) + ". ");
+            linkedList.append(this.getTask(i));
+            linkedList.append("\n");
+        }
+                return String.valueOf(linkedList);
     }
 }

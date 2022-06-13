@@ -2,9 +2,7 @@ package ua.edu.sumdu.j2se.malikova.tasks;
 
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.ListIterator;
-import java.util.Spliterator;
-import java.util.function.Consumer;
+
 
 public class ArrayTaskList extends AbstractTaskList {
     private Task[] array = new Task[10];
@@ -74,61 +72,61 @@ public class ArrayTaskList extends AbstractTaskList {
         return super.incoming(from, to);
     }
 
-
     @Override
     public String toString() {
-        return "array=" + Arrays.toString(array) +
-                ", count=" + counter +
-                '}';
+        StringBuffer arrayList = new StringBuffer();
+        arrayList.append("Array List with ");
+        arrayList.append(this.size());
+        arrayList.append(" tasks: \n");
+        for (int i = 0, y = 0; i < size(); i++) {
+            arrayList.append((++y) + ". ");
+            arrayList.append(this.getTask(i));
+            arrayList.append("\n");
+        }
+        return String.valueOf(arrayList);
     }
 
     @Override
     public Iterator<Task> iterator() {
-        return new TaskIterator(this);
-    }
+        return new Iterator<Task>() {
+            private int cursor = 0;
+            private Task lastReturned = null;
+            private Task current = array[cursor];
 
-    @Override
-    public void forEach(Consumer<? super Task> action) {
-        super.forEach(action);
-    }
-
-    @Override
-    public Spliterator<Task> spliterator() {
-        return super.spliterator();
-    }
-
-   /* @Override
-    public Iterator<Task> iterator() {
-        //Iterator<Task> iter = this.iterator();
-      //  return new Itr();
-        Iterator<Task> ListIterator = this.iterator();
-        ListIterator(ArrayTaskList array, int size {
-                    this.list = list;
-                  this.size = size;
-                    this.cursor = 0;
-                    isListIterator = false;
-                }
-        return new ListIterator<Task>(this, size()) {
             @Override
             public boolean hasNext() {
-                return (this.next()!=null);
+                return cursor < size();
             }
-
             @Override
             public Task next() {
-                return null;
+                lastReturned = current;
+                cursor++;
+                current = array[cursor];
+                return lastReturned;
+            }
+            @Override
+            public void remove() {
+                if (lastReturned == null) {
+                    throw new IllegalStateException();
+                }
+                ArrayTaskList.this.remove(lastReturned);
+                lastReturned = null;
+                cursor--;
             }
         };
     }
 
     @Override
-    public void forEach(Consumer<? super Task> action) {
-        super.forEach(action);
-    }
+    public int hashCode() {
+        int hash = 19;
+        return hash * super.hashCode();    }
 
     @Override
-    public Spliterator<Task> spliterator() {
-        return super.spliterator();
-    }*/
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
 }
+
+
 

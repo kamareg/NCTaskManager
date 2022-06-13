@@ -3,7 +3,7 @@ package ua.edu.sumdu.j2se.malikova.tasks;
 /**
  * Клас, що містить конструктори та методи для роботи з задачами.
  */
-public class Task {
+public class Task implements Cloneable {
 
     private String title;
     private int time;
@@ -263,15 +263,50 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "title='" + title + '\'' +
-                ", time=" + time +
-                ", start=" + start +
-                ", end=" + end +
-                ", interval=" + interval +
-                ", active=" + active +
-                ", isRepeated=" + isRepeated +
-                '}';
+        String description;
+        String activity;
+        String repeated;
+        if (this.active == true) {
+            activity = ", that is active";
+        } else {
+            activity = ", that is not active";
+        }
+        if (this.isRepeated == true) {
+            repeated = " and repeated.";
+        } else {
+            repeated = " and not repeated.";
+        }
+        if (end == 0 && start == 0 && interval == 0) {
+            description = "Task title \"" + title + "\", executed at the specified time " + time + activity + repeated;
+        } else {
+            description = "Task title \"" + title + "\", that begins at " + start + ", ends at " + end + ", has task time interval " + interval + activity + repeated;
+        }
+        return description;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Task task = (Task) obj;
+        if (this.title != task.title || this.time != task.time || this.start != task.start || this.end != task.end || this.interval != task.interval || this.active != task.active || this.isRepeated != task.isRepeated())
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = title == null ? 0 : 1;
+        hash = 11 * hash + time;
+        hash = 11 * hash + start;
+        hash = 11 * hash + end;
+        hash = 11 * hash + interval;
+        return hash;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
 

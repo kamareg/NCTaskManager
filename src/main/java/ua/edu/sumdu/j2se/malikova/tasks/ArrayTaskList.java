@@ -1,6 +1,8 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
 import java.util.Arrays;
+import java.util.Iterator;
+
 
 public class ArrayTaskList extends AbstractTaskList {
     private Task[] array = new Task[10];
@@ -70,12 +72,74 @@ public class ArrayTaskList extends AbstractTaskList {
         return super.incoming(from, to);
     }
 
-
     @Override
     public String toString() {
-        return "array=" + Arrays.toString(array) +
-                ", count=" + counter +
-                '}';
+        StringBuffer arrayList = new StringBuffer();
+        arrayList.append("Array List with ");
+        arrayList.append(this.size());
+        arrayList.append(" tasks: \n");
+        for (int i = 0, y = 0; i < size(); i++) {
+            arrayList.append((++y) + ". ");
+            arrayList.append(this.getTask(i));
+            arrayList.append("\n");
+        }
+        return String.valueOf(arrayList);
+    }
+
+    @Override
+    public Iterator<Task> iterator() {
+        return new Iterator<Task>() {
+            private int cursor = 0;
+            private Task lastReturned = null;
+            private Task current = array[cursor];
+
+            @Override
+            public boolean hasNext() {
+                return cursor < size();
+            }
+
+            @Override
+            public Task next() {
+                lastReturned = current;
+                cursor++;
+                current = array[cursor];
+                return lastReturned;
+            }
+
+            @Override
+            public void remove() {
+                if (lastReturned == null) {
+                    throw new IllegalStateException();
+                }
+                ArrayTaskList.this.remove(lastReturned);
+                lastReturned = null;
+                cursor--;
+            }
+        };
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 19;
+        return hash * super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public Object clone() {
+        try {
+            ArrayTaskList result = (ArrayTaskList) super.clone();
+            result.array = array.clone();
+            return result;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
+
+
 

@@ -1,5 +1,8 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
     protected ListTypes.types type;
 
@@ -11,16 +14,13 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
 
     public abstract Task getTask(int index);
 
-    public AbstractTaskList incoming(int from, int to) {
+    public final AbstractTaskList incoming(int from, int to) {
         if (from < 0 || from > to) {
             throw new IllegalArgumentException("Необхідно ввести допустимі значення");
         }
         AbstractTaskList incomingAbstractList = TaskListFactory.createTaskList(type);
-        for (int i = 0; i < size(); i++) {
-            if (this.getTask(i) != null && this.getTask(i).nextTimeAfter(from) != (-1) && this.getTask(i).nextTimeAfter(from) < to) {
-                incomingAbstractList.add(this.getTask(i));
-            }
-        }
+        Stream<Task> stream = getStream();
+        stream.filter(x -> x != null && x.nextTimeAfter(from) != (-1) && x.nextTimeAfter(from) < to).forEach(incomingAbstractList::add);
         return incomingAbstractList;
     }
 
@@ -52,5 +52,12 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public Stream<Task> getStream() {
+        Task[] tasks = new Task[this.size()];
+        for (int i = 0; i < this.size(); i++)
+            tasks[i] = getTask(i);
+        return Arrays.stream(tasks);
     }
 }

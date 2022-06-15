@@ -2,7 +2,7 @@ package ua.edu.sumdu.j2se.malikova.tasks;
 
 import java.util.Arrays;
 import java.util.Iterator;
-
+import java.util.stream.Stream;
 
 public class ArrayTaskList extends AbstractTaskList {
     private Task[] array = new Task[10];
@@ -65,11 +65,6 @@ public class ArrayTaskList extends AbstractTaskList {
             throw new IndexOutOfBoundsException("Необхідно ввести допустиме значення");
         }
         return array[index];
-    }
-
-    @Override
-    public AbstractTaskList incoming(int from, int to) {
-        return super.incoming(from, to);
     }
 
     @Override
@@ -138,6 +133,11 @@ public class ArrayTaskList extends AbstractTaskList {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
+    }
+
+    @Override
+    public Stream<Task> getStream() {
+        return super.getStream();
     }
 }
 

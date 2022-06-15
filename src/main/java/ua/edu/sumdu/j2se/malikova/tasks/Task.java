@@ -1,5 +1,7 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
+import java.util.stream.Stream;
+
 /**
  * Клас, що містить конструктори та методи для роботи з задачами.
  */

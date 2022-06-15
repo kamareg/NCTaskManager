@@ -1,5 +1,9 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
 public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
     protected ListTypes.types type;
 
@@ -53,4 +57,12 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+    public Stream<Task> getStream () {
+       Task[] tasks = new Task[this.size()];
+        for (int i = 0; i < this.size(); i++)
+            tasks[i] = getTask(i);
+        return Arrays.stream(tasks);
+    };
+
+
 }

@@ -1,8 +1,18 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 public class LinkedTaskList extends AbstractTaskList {
+
+    private static class Link {
+        public Task task;
+        public Link next;
+
+        public Link(Task task) {
+            this.task = task;
+        }
+    }
     private Link first;
 
     public LinkedTaskList() {
@@ -42,15 +52,6 @@ public class LinkedTaskList extends AbstractTaskList {
                 cursor--;
             }
         };
-    }
-
-    private static class Link {
-        public Task task;
-        public Link next;
-
-        public Link(Task task) {
-            this.task = task;
-        }
     }
 
     @Override
@@ -118,11 +119,6 @@ public class LinkedTaskList extends AbstractTaskList {
     }
 
     @Override
-    public AbstractTaskList incoming(int from, int to) {
-        return super.incoming(from, to);
-    }
-
-    @Override
     public int hashCode() {
         int hash = 31;
         return hash * super.hashCode();
@@ -145,5 +141,10 @@ public class LinkedTaskList extends AbstractTaskList {
             linkedList.append("\n");
         }
         return String.valueOf(linkedList);
+    }
+
+    @Override
+    public Stream<Task> getStream() {
+        return super.getStream();
     }
 }

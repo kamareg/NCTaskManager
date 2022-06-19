@@ -1,10 +1,26 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public class Main {
 
     public static void main(String[] args) throws CloneNotSupportedException {
+        LocalDateTime first = LocalDateTime.now();
+        LocalDateTime second = LocalDateTime.of(2022, 12, 5, 12, 30);
+        LocalDateTime third = LocalDateTime.of(2022, 6, 25, 15, 40);
+        LocalDateTime fourth = LocalDateTime.of(2022, 6, 30, 15, 48);
+        LocalDateTime fifty = LocalDateTime.of(2022, 7, 5, 5, 5);
+        LocalDateTime sixty = LocalDateTime.of(2022, 7, 20, 18, 38);
 
-        Task task1 = new Task("first task", 1);
+        Task task = new Task("one", first);
+        Task task1 = new Task("two", third, second, 1200);
+        task1.nextTimeAfter(fourth);
+
+
+    }
+
+        /*Task task1 = new Task("first task", 1);
         Task task2 = new Task("second task", 3, 100, 20);
         Task task3 = new Task("third task", 5);
         Task task4 = new Task("fourth task", 10);
@@ -42,6 +58,6 @@ public class Main {
         four.add(task5);
         System.out.println(four);
         System.out.println(one);
-    }
+    }*/
 }
 

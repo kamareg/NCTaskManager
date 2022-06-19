@@ -1,18 +1,42 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
+import java.time.LocalDateTime;
+
 /**
  * Клас, що містить конструктори та методи для роботи з задачами.
  */
 public class Task implements Cloneable {
 
     private String title;
-    private int time;
-    private int start;
-    private int end;
+    private int time1;
+    private int start1;
+    private int end1;
     private int interval;
     private boolean active;
     private boolean isRepeated;
+/*    private int year;
+    private int month;
+    private int day;
+    private int hour;
+    private int minute;
 
+//LocalDateTime jhjh = LocalDateTime.
+LocalDateTime time = LocalDateTime.of(year, month, day, hour, minute); //{
+//    this.year = year;
+ //   this.month = month;
+//    this.day = day;
+//    this.hour = hour;
+//    this.minute = minute;
+ //   }
+LocalDateTime start = LocalDateTime.of(year, month, day, hour, minute);
+    LocalDateTime end = LocalDateTime.of(year, month, day, hour, minute);
+    LocalDateTime interval = LocalDateTime.of(year, month, day, hour, minute);*/
+
+
+    private LocalDateTime time;
+    private LocalDateTime start;
+    private LocalDateTime end;
+    //   private LocalDateTime interval;
 
     /**
      * Конструктор, що конструює неактивну задачу,
@@ -22,10 +46,10 @@ public class Task implements Cloneable {
      * @param time  час виконання задачі.
      */
 
-    public Task(String title, int time) {
-        if (time < 0) {
-            throw new IllegalArgumentException("Час не може бути від'ємним");
-        }
+    public Task(String title, LocalDateTime time) {
+        //     if (time < 0) {
+        //        throw new IllegalArgumentException("Час не може бути від'ємним");
+        //    }
         this.title = title;
         this.time = time;
         setActive(false);
@@ -42,10 +66,10 @@ public class Task implements Cloneable {
      * @param interval інтервал часу виконання задачі.
      */
 
-    public Task(String title, int start, int end, int interval) {
-        if (start < 0 || end < 0 || interval < 0) {
-            throw new IllegalArgumentException("Час не може бути від'ємним");
-        }
+    public Task(String title, LocalDateTime start, LocalDateTime end, int interval) {
+        //      if (start < 0 || end < 0 || interval < 0) {
+        //          throw new IllegalArgumentException("Час не може бути від'ємним");
+        //     }
         this.title = title;
         this.start = start;
         this.end = end;
@@ -101,7 +125,7 @@ public class Task implements Cloneable {
      * повертати час початку повторення.
      */
 
-    public int getTime() {
+    public LocalDateTime getTime() {
         if (isRepeated()) {
             return start;
         } else {
@@ -117,10 +141,10 @@ public class Task implements Cloneable {
      * @param time час виконання задачі.
      */
 
-    public void setTime(int time) {
-        if (time < 0) {
-            throw new IllegalArgumentException("Час не може бути від'ємним");
-        }
+    public void setTime(LocalDateTime time) {
+        //     if (time < 0) {
+        //        throw new IllegalArgumentException("Час не може бути від'ємним");
+        //    }
         if (isRepeated()) {
             setRepeated(false);
         }
@@ -134,7 +158,7 @@ public class Task implements Cloneable {
      * має повертати час виконання задачі
      */
 
-    public int getStartTime() {
+    public LocalDateTime getStartTime() {
         if (!isRepeated()) {
             return time;
         } else {
@@ -149,7 +173,7 @@ public class Task implements Cloneable {
      * повертати час виконання задачі.
      */
 
-    public int getEndTime() {
+    public LocalDateTime getEndTime() {
         if (!isRepeated()) {
             return time;
         } else {
@@ -182,10 +206,10 @@ public class Task implements Cloneable {
      * @param interval інтервал часу виконання задачі.
      */
 
-    public void setTime(int start, int end, int interval) {
-        if (start < 0 || end < 0 || interval < 0) {
-            throw new IllegalArgumentException("Час не може бути від'ємним");
-        }
+    public void setTime(LocalDateTime start, LocalDateTime end, int interval) {
+        //      if (start < 0 || end < 0 || interval < 0) {
+        //          throw new IllegalArgumentException("Час не може бути від'ємним");
+        //     }
         if (!isRepeated()) {
             setRepeated(true);
         }
@@ -222,38 +246,71 @@ public class Task implements Cloneable {
      * метод має повертати -1.
      */
 
-    public int nextTimeAfter(int current) {
-        if (current < 0) {
-            throw new IllegalArgumentException("Час не може бути від'ємним");
-        }
-        if (!this.isActive()) {
-            return -1;
-        } else if (!this.isRepeated()) {
-            if (current < this.getStartTime()) {
-                return this.getStartTime();
+    public LocalDateTime nextTimeAfter(LocalDateTime current) {
+        //       if (current < 0) {
+        //          throw new IllegalArgumentException("Час не може бути від'ємним");
+        //     }
+        LocalDateTime nextAfter = null;
+        if (this.isActive() && this.isRepeated()) {
+            if (current.isBefore(this.getStartTime())) {
+                nextAfter = this.getStartTime();
             } else {
-                return -1;
-            }
-        } else {
-            if (current < this.getStartTime()) {
-                return this.getStartTime();
-            } else {
-                int i = this.getStartTime();
-                while (i < this.getEndTime()) {
-                    if (i <= current) {
-                        i = i + this.getRepeatInterval();
+
+                LocalDateTime i = this.getStartTime();
+                while (i.isBefore(this.getEndTime())) {
+                    if (i.isBefore(current)) {
+                        //&& !(i.isEqual(current))) {         //***
+                        i = i.plusSeconds(this.interval);
                     } else {
                         break;
                     }
                 }
-                if (this.getEndTime() > i) {
+                if (i.isBefore(this.getEndTime())) {
                     return i;
-                } else {
-                    return -1;
                 }
+
+
+            }
+        } else if (!this.isRepeated()) {
+            if (current.isBefore(this.getStartTime())) {
+                nextAfter = this.getStartTime();
             }
         }
+        return nextAfter;
     }
+
+
+
+    /*    if (!this.isActive()) {
+            return null;
+  //          return -1;
+        } else if (!this.isRepeated()) {
+            if (current.isBefore(this.getStartTime())) {
+                return this.getStartTime();
+            } else {
+                return null;
+            }
+        } else {
+            if (current.isBefore(this.getStartTime())) {
+                return this.getStartTime();
+            } else {
+                LocalDateTime i = this.getStartTime();
+                while (i.isBefore(this.getEndTime())) {
+                    if (i.isBefore(current)) {
+                    //&& !(i.isEqual(current))) {         //***
+                        i = i.plusSeconds(this.getRepeatInterval());
+                    } else {
+                        break;
+                    }
+                }
+                if (i.isBefore(this.getEndTime())) {
+                    return i;
+                } else {
+                    return null;
+                }
+            }
+        }*/
+
 
     /**
      * Метод перевизначення.
@@ -266,21 +323,21 @@ public class Task implements Cloneable {
         String description;
         String activity;
         String repeated;
-        if (this.active == true) {
+        if (this.active) {
             activity = ", that is active";
         } else {
             activity = ", that is not active";
         }
-        if (this.isRepeated == true) {
+        if (this.isRepeated) {
             repeated = " and repeated.";
         } else {
             repeated = " and not repeated.";
         }
-        if (end == 0 && start == 0 && interval == 0) {
-            description = "Task title \"" + title + "\", executed at the specified time " + time + activity + repeated;
-        } else {
-            description = "Task title \"" + title + "\", that begins at " + start + ", ends at " + end + ", has task time interval " + interval + activity + repeated;
-        }
+        //     if (end == 0 && start == 0 && interval == 0) {
+        description = "Task title \"" + title + "\", executed at the specified time " + time + activity + repeated;
+        //     } else {
+        //        description = "Task title \"" + title + "\", that begins at " + start + ", ends at " + end + ", has task time interval " + interval + activity + repeated;
+        //    }
         return description;
     }
 
@@ -297,9 +354,9 @@ public class Task implements Cloneable {
     @Override
     public int hashCode() {
         int hash = title == null ? 0 : 1;
-        hash = 11 * hash + time;
-        hash = 11 * hash + start;
-        hash = 11 * hash + end;
+        hash = 11 * hash + time.getMinute();
+        hash = 11 * hash + start.getMinute();
+        hash = 11 * hash + end.getMinute();
         hash = 11 * hash + interval;
         return hash;
     }

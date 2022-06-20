@@ -234,16 +234,17 @@ public class Task implements Cloneable {
             }
             if (this.isRepeated) {
                 LocalDateTime i;
-                for (i = this.getStartTime(); i.isEqual(this.getEndTime()); i = i.plusSeconds(this.interval)) {
+                for (i = this.getStartTime(); i.isBefore(this.getEndTime()) || i.isEqual(this.getEndTime()); i = i.plusSeconds(this.interval)) {
                     if (current.isBefore(i) || current.isEqual(i)) {
-                        if ((i.isBefore(this.getEndTime()))) {
-                            if (current.isEqual(i)) {
-                                nextAfter = i.plusSeconds(this.interval);
-                                break;
+                        if (current.isEqual(i)) {
+                            if (i.isEqual(this.getEndTime())) {
+                                return null;
                             }
-                            nextAfter = i;
+                            nextAfter = i.plusSeconds(this.interval);
                             break;
                         }
+                        nextAfter = i;
+                        break;
                     }
                 }
             }

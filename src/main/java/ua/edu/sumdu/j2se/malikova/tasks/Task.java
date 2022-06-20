@@ -8,35 +8,12 @@ import java.time.LocalDateTime;
 public class Task implements Cloneable {
 
     private String title;
-    private int time1;
-    private int start1;
-    private int end1;
     private int interval;
     private boolean active;
     private boolean isRepeated;
-/*    private int year;
-    private int month;
-    private int day;
-    private int hour;
-    private int minute;
-
-//LocalDateTime jhjh = LocalDateTime.
-LocalDateTime time = LocalDateTime.of(year, month, day, hour, minute); //{
-//    this.year = year;
- //   this.month = month;
-//    this.day = day;
-//    this.hour = hour;
-//    this.minute = minute;
- //   }
-LocalDateTime start = LocalDateTime.of(year, month, day, hour, minute);
-    LocalDateTime end = LocalDateTime.of(year, month, day, hour, minute);
-    LocalDateTime interval = LocalDateTime.of(year, month, day, hour, minute);*/
-
-
     private LocalDateTime time;
     private LocalDateTime start;
     private LocalDateTime end;
-    //   private LocalDateTime interval;
 
     /**
      * Конструктор, що конструює неактивну задачу,
@@ -47,9 +24,9 @@ LocalDateTime start = LocalDateTime.of(year, month, day, hour, minute);
      */
 
     public Task(String title, LocalDateTime time) {
-        //     if (time < 0) {
-        //        throw new IllegalArgumentException("Час не може бути від'ємним");
-        //    }
+        if (time == null) {
+            throw new IllegalArgumentException("Потрібно задати час");
+        }
         this.title = title;
         this.time = time;
         setActive(false);
@@ -67,9 +44,9 @@ LocalDateTime start = LocalDateTime.of(year, month, day, hour, minute);
      */
 
     public Task(String title, LocalDateTime start, LocalDateTime end, int interval) {
-        //      if (start < 0 || end < 0 || interval < 0) {
-        //          throw new IllegalArgumentException("Час не може бути від'ємним");
-        //     }
+        if (start == null || end == null || interval < 0) {
+            throw new IllegalArgumentException("Потрібно задати час");
+        }
         this.title = title;
         this.start = start;
         this.end = end;
@@ -142,9 +119,9 @@ LocalDateTime start = LocalDateTime.of(year, month, day, hour, minute);
      */
 
     public void setTime(LocalDateTime time) {
-        //     if (time < 0) {
-        //        throw new IllegalArgumentException("Час не може бути від'ємним");
-        //    }
+        if (time == null) {
+            throw new IllegalArgumentException("Потрібно задати час");
+        }
         if (isRepeated()) {
             setRepeated(false);
         }
@@ -207,9 +184,9 @@ LocalDateTime start = LocalDateTime.of(year, month, day, hour, minute);
      */
 
     public void setTime(LocalDateTime start, LocalDateTime end, int interval) {
-        //      if (start < 0 || end < 0 || interval < 0) {
-        //          throw new IllegalArgumentException("Час не може бути від'ємним");
-        //     }
+        if (start == null || end == null || interval < 0) {
+            throw new IllegalArgumentException("Потрібно задати час");
+        }
         if (!isRepeated()) {
             setRepeated(true);
         }
@@ -247,70 +224,32 @@ LocalDateTime start = LocalDateTime.of(year, month, day, hour, minute);
      */
 
     public LocalDateTime nextTimeAfter(LocalDateTime current) {
-        //       if (current < 0) {
-        //          throw new IllegalArgumentException("Час не може бути від'ємним");
-        //     }
+        if (current == null) {
+            throw new IllegalArgumentException("Потрібно задати час");
+        }
         LocalDateTime nextAfter = null;
-        if (this.isActive() && this.isRepeated()) {
+        if (this.isActive()) {
             if (current.isBefore(this.getStartTime())) {
-                nextAfter = this.getStartTime();
-            } else {
-
-                LocalDateTime i = this.getStartTime();
-                while (i.isBefore(this.getEndTime())) {
-                    if (i.isBefore(current)) {
-                        //&& !(i.isEqual(current))) {         //***
-                        i = i.plusSeconds(this.interval);
-                    } else {
-                        break;
+                return this.getStartTime();
+            }
+            if (this.isRepeated) {
+                LocalDateTime i;
+                for (i = this.getStartTime(); i.isEqual(this.getEndTime()); i = i.plusSeconds(this.interval)) {
+                    if (current.isBefore(i) || current.isEqual(i)) {
+                        if ((i.isBefore(this.getEndTime()))) {
+                            if (current.isEqual(i)) {
+                                nextAfter = i.plusSeconds(this.interval);
+                                break;
+                            }
+                            nextAfter = i;
+                            break;
+                        }
                     }
                 }
-                if (i.isBefore(this.getEndTime())) {
-                    return i;
-                }
-
-
-            }
-        } else if (!this.isRepeated()) {
-            if (current.isBefore(this.getStartTime())) {
-                nextAfter = this.getStartTime();
             }
         }
         return nextAfter;
     }
-
-
-
-    /*    if (!this.isActive()) {
-            return null;
-  //          return -1;
-        } else if (!this.isRepeated()) {
-            if (current.isBefore(this.getStartTime())) {
-                return this.getStartTime();
-            } else {
-                return null;
-            }
-        } else {
-            if (current.isBefore(this.getStartTime())) {
-                return this.getStartTime();
-            } else {
-                LocalDateTime i = this.getStartTime();
-                while (i.isBefore(this.getEndTime())) {
-                    if (i.isBefore(current)) {
-                    //&& !(i.isEqual(current))) {         //***
-                        i = i.plusSeconds(this.getRepeatInterval());
-                    } else {
-                        break;
-                    }
-                }
-                if (i.isBefore(this.getEndTime())) {
-                    return i;
-                } else {
-                    return null;
-                }
-            }
-        }*/
-
 
     /**
      * Метод перевизначення.
@@ -333,11 +272,11 @@ LocalDateTime start = LocalDateTime.of(year, month, day, hour, minute);
         } else {
             repeated = " and not repeated.";
         }
-        //     if (end == 0 && start == 0 && interval == 0) {
-        description = "Task title \"" + title + "\", executed at the specified time " + time + activity + repeated;
-        //     } else {
-        //        description = "Task title \"" + title + "\", that begins at " + start + ", ends at " + end + ", has task time interval " + interval + activity + repeated;
-        //    }
+        if (end == null && start == null && interval == 0) {
+            description = "Task title \"" + title + "\", executed at the specified time " + time + activity + repeated;
+        } else {
+            description = "Task title \"" + title + "\", that begins at " + start + ", ends at " + end + ", has task time interval " + interval + activity + repeated;
+        }
         return description;
     }
 

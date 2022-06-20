@@ -13,9 +13,17 @@ public class Main {
         LocalDateTime fifty = LocalDateTime.of(2022, 7, 5, 5, 5);
         LocalDateTime sixty = LocalDateTime.of(2022, 7, 20, 18, 38);
 
-        Task task = new Task("one", first);
-        Task task1 = new Task("two", third, second, 1200);
-        task1.nextTimeAfter(fourth);
+
+        LocalDateTime NOW = LocalDateTime.now();
+        LocalDateTime FROM_NOW_10 = NOW.plusSeconds(10);
+        LocalDateTime FROM_NOW_30 = NOW.plusSeconds(30);
+        LocalDateTime FROM_NOW_50 = NOW.plusSeconds(50);
+        LocalDateTime FROM_NOW_100 = NOW.plusSeconds(100);
+        Task task = new Task("some", FROM_NOW_10, FROM_NOW_100, 20);
+        task.setActive(true);
+     //   task.nextTimeAfter(FROM_NOW_30);
+
+        System.out.println(task);
 
 
     }

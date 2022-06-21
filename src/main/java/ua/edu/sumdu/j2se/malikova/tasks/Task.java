@@ -293,11 +293,11 @@ public class Task implements Cloneable {
 
     @Override
     public int hashCode() {
-        int hash = title == null ? 0 : 1;
-        hash = 11 * hash + time.getMinute();
-        hash = 11 * hash + start.getMinute();
-        hash = 11 * hash + end.getMinute();
-        hash = 11 * hash + interval;
+        int hash = title == null ? 1 : 11;
+        hash = (time == null ? 1 : (11 + time.getMinute())) * hash;
+        hash = (start == null ? 1 : (11 + start.getMinute())) * hash;
+        hash = (end == null ? 1 : (11 + end.getMinute())) * hash;
+        hash = (interval == 0 ? 1 : (11 + interval)) * hash;
         return hash;
     }
 

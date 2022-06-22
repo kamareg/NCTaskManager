@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -14,15 +15,15 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
 
     public abstract Task getTask(int index);
 
-    public final AbstractTaskList incoming(int from, int to) {
-        if (from < 0 || from > to) {
+  /*  public final AbstractTaskList incoming(LocalDateTime from, LocalDateTime to) {
+        if (from == null || to == null || to.isBefore(from)) {
             throw new IllegalArgumentException("Необхідно ввести допустимі значення");
         }
         AbstractTaskList incomingAbstractList = TaskListFactory.createTaskList(type);
         Stream<Task> stream = getStream();
-        stream.filter(x -> x != null && x.nextTimeAfter(from) != (-1) && x.nextTimeAfter(from) < to).forEach(incomingAbstractList::add);
+        stream.filter(x -> x != null && x.nextTimeAfter(from) != null && x.nextTimeAfter(from).isBefore(to)).forEach(incomingAbstractList::add);
         return incomingAbstractList;
-    }
+    }*/
 
     @Override
     public int hashCode() {

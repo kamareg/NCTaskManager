@@ -15,7 +15,7 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
 
     public abstract Task getTask(int index);
 
-    public final AbstractTaskList incoming(LocalDateTime from, LocalDateTime to) {
+  /*  public final AbstractTaskList incoming(LocalDateTime from, LocalDateTime to) {
         if (from == null || to == null || to.isBefore(from)) {
             throw new IllegalArgumentException("Необхідно ввести допустимі значення");
         }
@@ -23,7 +23,7 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
         Stream<Task> stream = getStream();
         stream.filter(x -> x != null && x.nextTimeAfter(from) != null && x.nextTimeAfter(from).isBefore(to)).forEach(incomingAbstractList::add);
         return incomingAbstractList;
-    }
+    }*/
 
     @Override
     public int hashCode() {

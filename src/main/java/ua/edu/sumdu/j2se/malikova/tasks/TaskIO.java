@@ -4,7 +4,17 @@ import java.io.*;
 
 public class TaskIO {
     public static void write(AbstractTaskList tasks, OutputStream out) {
-        AbstractTaskList list = tasks;
+
+        try {
+           // OutputStream outputStream = new DataOutputStream(out);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(out);{
+                objectOutputStream.writeObject(tasks);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        /*  AbstractTaskList list = tasks;
         OutputStream outputStream = null;
         try {
             outputStream = new BufferedOutputStream(new DataOutputStream(out));
@@ -13,10 +23,20 @@ public class TaskIO {
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
+        }*/
     }
     void read(AbstractTaskList tasks, InputStream in) throws IOException {
-        FileInputStream inputStream = new FileInputStream("c:/data.txt");
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(in);
+
+            AbstractTaskList list = (AbstractTaskList) objectInputStream.readObject();
+            list.getStream().forEach(tasks::add);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+
+     /*   FileInputStream inputStream = new FileInputStream("c:/data.txt");
         long sum = 0;
 
         while (inputStream.available() > 0) //пока остались непрочитанные байты
@@ -26,7 +46,7 @@ public class TaskIO {
         }
         inputStream.close(); // закрываем поток
 
-        System.out.println(sum); //выводим сумму на экран.
+        System.out.println(sum); //выводим сумму на экран.*/
     }
 
     //DataInputStream(InputStream stream)

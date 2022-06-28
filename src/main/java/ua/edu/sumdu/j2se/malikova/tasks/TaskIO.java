@@ -1,55 +1,52 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
 
 public class TaskIO {
-    public static void write(AbstractTaskList tasks, OutputStream out) {
-
+    public static void write (AbstractTaskList tasks, OutputStream out) {
         try {
-           // OutputStream outputStream = new DataOutputStream(out);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(out);{
-                objectOutputStream.writeObject(tasks);
+            DataOutputStream outputStream = new DataOutputStream(out);
+            outputStream.writeInt(tasks.size());
+            for (Task task: tasks) {
+            outputStream.writeInt(task.getTitle().length());
+            outputStream.writeUTF(task.getTitle());
+            outputStream.writeBoolean(task.isActive());
+            outputStream.writeInt(task.getRepeatInterval());
+            if (task.isRepeated()) {
+                outputStream.writeLong(task.getStartTime().toEpochSecond(ZoneOffset.UTC));
+                outputStream.writeLong(task.getEndTime().toEpochSecond(ZoneOffset.UTC));
+            } else {
+                outputStream.writeLong(task.getTime().toEpochSecond(ZoneOffset.UTC));
+            }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        /*  AbstractTaskList list = tasks;
-        OutputStream outputStream = null;
+    }
+    void read(AbstractTaskList tasks, InputStream in) {
         try {
-            outputStream = new BufferedOutputStream(new DataOutputStream(out));
-            for (int i = 1000000; i>=0; i--) {
-                outputStream.write(i);
+            DataInputStream inputStream = new DataInputStream(in);
+            int size = inputStream.readInt();
+            while (inputStream.available() > 0) {
+                int titleLength = inputStream.readInt();
+                String title = inputStream.readUTF();
+                Boolean isActive = inputStream.readBoolean();
+                int repeatInterval = inputStream.readInt();
+                if (repeatInterval!=0) {
+                    LocalDateTime startTime = LocalDateTime.ofEpochSecond(inputStream.readLong(), 0, ZoneOffset.UTC);
+                    LocalDateTime endTime = LocalDateTime.ofEpochSecond(inputStream.readLong(), 0, ZoneOffset.UTC);
+                } else {
+                    LocalDateTime time = LocalDateTime.ofEpochSecond(inputStream.readLong(), 0, ZoneOffset.UTC);
+                }
             }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }*/
-    }
-    void read(AbstractTaskList tasks, InputStream in) throws IOException {
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(in);
-
-            AbstractTaskList list = (AbstractTaskList) objectInputStream.readObject();
-            list.getStream().forEach(tasks::add);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
-
-
-     /*   FileInputStream inputStream = new FileInputStream("c:/data.txt");
-        long sum = 0;
-
-        while (inputStream.available() > 0) //пока остались непрочитанные байты
-        {
-            int data = inputStream.read(); //прочитать очередной байт
-            sum += data; //добавить его к общей сумме
-        }
-        inputStream.close(); // закрываем поток
-
-        System.out.println(sum); //выводим сумму на экран.*/
     }
-
-    //DataInputStream(InputStream stream)
 
     void writeBinary(AbstractTaskList tasks, File file) {
 
@@ -74,4 +71,16 @@ public class TaskIO {
     void readText(AbstractTaskList tasks, File file) {
 
     }
+     /*   FileInputStream inputStream = new FileInputStream("c:/data.txt");
+        long sum = 0;
+
+        while (inputStream.available() > 0) //пока остались непрочитанные байты
+        {
+            int data = inputStream.read(); //прочитать очередной байт
+            sum += data; //добавить его к общей сумме
+        }
+        inputStream.close(); // закрываем поток
+
+        System.out.println(sum); //выводим сумму на экран.
+    }*/
 }

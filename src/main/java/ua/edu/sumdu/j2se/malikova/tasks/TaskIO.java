@@ -1,14 +1,16 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-
+import java.time.format.DateTimeFormatter;
 
 public class TaskIO {
+    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd''HH:mm:ss.n");
+
     public static void write(AbstractTaskList tasks, OutputStream out) {
         try (DataOutputStream outputStream = new DataOutputStream(out)) {
             outputStream.writeInt(tasks.size());
@@ -71,20 +73,67 @@ public class TaskIO {
     }
 
     public static void write(AbstractTaskList tasks, Writer out) {
-        try {GsonBuilder gsonBuilder = new GsonBuilder();
+        try (JsonWriter jsonWriter = new JsonWriter(out)) {
+            jsonWriter.beginObject();
+            jsonWriter.name("Task list");
+            jsonWriter.beginArray();
+            for (Task task : tasks) {
+                jsonWriter.beginObject();
+                jsonWriter.name("title").value(task.getTitle());
+                jsonWriter.name("activity").value(task.isActive());
+                jsonWriter.name("interval").value(task.getRepeatInterval());
+                if (task.isRepeated()) {
+                    jsonWriter.name("start time").value(dtf.format(task.getStartTime()));
+                    jsonWriter.name("end time").value(dtf.format(task.getEndTime()));
+                } else {
+                    jsonWriter.name("time").value(dtf.format(task.getTime()));
+                }
+                jsonWriter.endObject();
+            }
+            jsonWriter.endArray();
+            jsonWriter.endObject();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public static void read(AbstractTaskList tasks, Reader in) {
 
+    public static void read(AbstractTaskList tasks, Reader in) {
+        Task task;
+        Object obj = new JsonParser().parse(in);
+        JsonObject jsonObject = (JsonObject) obj;
+        JsonArray array = (JsonArray) jsonObject.get("Task list");
+        for (JsonElement jsonElement : array) {
+            JsonObject taskFromArray = (JsonObject) jsonElement;
+            String title = (String.valueOf(taskFromArray.get("title"))).replace("\"", "");
+            boolean active = (taskFromArray.get("activity")).getAsBoolean();
+            int interval = (taskFromArray.get("interval")).getAsInt();
+            if (interval != 0) {
+                LocalDateTime startTime = LocalDateTime.parse(((taskFromArray.get("start time")).getAsString()), dtf);
+                LocalDateTime endTime = LocalDateTime.parse(((taskFromArray.get("end time")).getAsString()), dtf);
+                task = new Task(title, startTime, endTime, interval);
+            } else {
+                LocalDateTime time = LocalDateTime.parse(((taskFromArray.get("time")).getAsString()), dtf);
+                task = new Task(title, time);
+            }
+            task.setActive(active);
+            tasks.add(task);
+        }
     }
 
     public static void writeText(AbstractTaskList tasks, File file) {
-
+        try (FileWriter fileWriter = new FileWriter(file)) {
+            TaskIO.write(tasks, fileWriter);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void readText(AbstractTaskList tasks, File file) {
-
+        try (FileReader fileReader = new FileReader(file)) {
+            TaskIO.read(tasks, fileReader);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-
 }

@@ -1,11 +1,12 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * Клас, що містить конструктори та методи для роботи з задачами.
  */
-public class Task implements Cloneable {
+public class Task implements Cloneable, Serializable {
 
     private String title;
     private int interval;

@@ -1,4 +1,4 @@
-package ua.edu.sumdu.j2se.malikova.tasks;
+package ua.edu.sumdu.j2se.malikova.tasks.model;
 
 import java.io.Serializable;
 import java.util.Arrays;

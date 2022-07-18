@@ -70,7 +70,7 @@ public class ArrayTaskList extends AbstractTaskList {
     @Override
     public String toString() {
         StringBuffer arrayList = new StringBuffer();
-        arrayList.append("Array List with ");
+        arrayList.append("Array List has ");
         arrayList.append(this.size());
         arrayList.append(" tasks: \n");
         for (int i = 0, y = 0; i < size(); i++) {

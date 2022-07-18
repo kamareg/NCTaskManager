@@ -132,7 +132,7 @@ public class LinkedTaskList extends AbstractTaskList {
     @Override
     public String toString() {
         StringBuffer linkedList = new StringBuffer();
-        linkedList.append("Linked List with ");
+        linkedList.append("Linked List has ");
         linkedList.append(this.size());
         linkedList.append(" tasks: \n");
         for (int i = 0, y = 0; i < size(); i++) {

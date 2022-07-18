@@ -14,7 +14,6 @@ public class AddTaskView implements View {
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private String title;
     private int interval;
-    private boolean active;
     private boolean isRepeated;
     private LocalDateTime time;
     private LocalDateTime start;
@@ -114,15 +113,31 @@ public class AddTaskView implements View {
                 return Controller.MAIN_MENU_ACTION;
             }
             task = new Task(title, start, end, interval);
-            task.setActive(true);
-            taskList.add(task);
 
     } else {
+            System.out.println("You need to input the time of the task.");
+            year = getYear();
+            if (year == 0) {
+                return Controller.MAIN_MENU_ACTION;
+            }
+            month = getMonth();
+            if (month == 0) {
+                return Controller.MAIN_MENU_ACTION;
+            }
+            date = getDate();
+            if (date == 0) {
+                return Controller.MAIN_MENU_ACTION;
+            }
+            hour = getHour();
+            minute = getMinute();
 
+            time = LocalDateTime.of(year, month, date, hour, minute);
+            System.out.println("Ok, your task time is " + time.format(dtf));
+
+            task = new Task(title, time);
         }
-
-
-
+        task.setActive(true);
+        taskList.add(task);
 
         return Controller.MAIN_MENU_ACTION;
 }

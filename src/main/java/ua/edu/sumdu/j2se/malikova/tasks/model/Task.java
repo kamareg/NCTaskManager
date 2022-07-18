@@ -196,15 +196,18 @@ public class Task implements Cloneable, Serializable {
         this.interval = interval;
     }
 
-    public void setStartTime(LocalDateTime start, LocalDateTime end, int interval) {
-        if (start == null) {
-            throw new IllegalArgumentException("Потрібно задати час");
-        }
-        if (!isRepeated()) {
-            setRepeated(true);
-        }
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
+
+    public void setInterval(int interval) {
+        this.interval = interval;
+    }
+
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
+    }
+
     /**
      * Метод для перевірки повторюваності задачі.
      *

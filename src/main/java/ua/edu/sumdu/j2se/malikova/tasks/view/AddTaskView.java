@@ -14,19 +14,19 @@ import java.time.format.DateTimeFormatter;
 public class AddTaskView implements View {
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private String title;
-    Date dateConstructor;
+    private Date dateConstructor;
     private int interval;
     private boolean isRepeated;
     private LocalDateTime time;
     private LocalDateTime start;
     private LocalDateTime end;
-    String input;
-    int year;
-    int month;
-    int date;
-    int hour;
-    int minute;
-    Task task;
+    private String input;
+    private int year;
+    private int month;
+    private int date;
+    private int hour;
+    private int minute;
+    private Task task;
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd''HH:mm:ss");
 
 
@@ -116,6 +116,7 @@ public class AddTaskView implements View {
             if (interval == 0) {
                 return Controller.MAIN_MENU_ACTION;
             }
+            System.out.println("Ok, your task interval is " + interval);
             task = new Task(title, start, end, interval);
 
     } else {
@@ -143,6 +144,7 @@ public class AddTaskView implements View {
         }
         task.setActive(true);
         taskList.add(task);
+        System.out.println("Task was added to the list.");
 
         return Controller.MAIN_MENU_ACTION;
 }

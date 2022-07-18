@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 
 public class RemoveTaskView implements View{
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    String input;
+    private String input;
 
     @Override
     public int printInfo(AbstractTaskList taskList) {

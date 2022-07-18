@@ -13,22 +13,19 @@ import java.time.format.DateTimeFormatter;
 
 public class EditTaskView implements View{
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    Task task;
-    Date dateConstructor;
-    private String title;
+    private Task task;
+    private Date dateConstructor;
     private int interval;
-    private boolean isRepeated;
-    private boolean active;
     private LocalDateTime time;
     private LocalDateTime start;
     private LocalDateTime end;
-    String input;
-    int taskNumber;
-    int year;
-    int month;
-    int date;
-    int hour;
-    int minute;
+    private String input;
+    private int taskNumber;
+    private int year;
+    private int month;
+    private int date;
+    private int hour;
+    private int minute;
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd''HH:mm:ss");
 
     @Override
@@ -48,11 +45,11 @@ public class EditTaskView implements View{
         System.out.println("Your choice is: \n" + task);
 
         System.out.println("What do you want to edit?");
-        System.out.println("Choose from the list below.\n 1. Task title. \n 2. Task activity. \n 3. Repeatability");
+        System.out.println("Choose from the list below.\n 1. Task title. \n 2. Task activity. ");
         if (task.isRepeated()){
-            System.out.println(" 4. Task start time.\n 5. Task end time.\n 6. Task repeated interval.");
+            System.out.println(" 3. Task start time.\n 4. Task end time.\n 5. Task repeated interval.");
         } else {
-            System.out.println(" 4. Task time.");
+            System.out.println(" 3. Task time.");
         }
         System.out.println("If you want to cancel this process please put 0.");
 
@@ -67,9 +64,9 @@ public class EditTaskView implements View{
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) == 0) {
                     return Controller.MAIN_MENU_ACTION;
-                } else if (task.isRepeated() && Integer.parseInt(input) > 6) {
+                } else if (task.isRepeated() && Integer.parseInt(input) > 5) {
                     System.out.println("Please select an action number.");
-                } else if (!(task.isRepeated()) && Integer.parseInt(input) > 4) {
+                } else if (!(task.isRepeated()) && Integer.parseInt(input) > 3) {
                     System.out.println("Please select an action number.");
                 } else {
                     switch (Integer.parseInt(input)) {
@@ -85,7 +82,6 @@ public class EditTaskView implements View{
                                     System.out.println("Title cannot be empty!");
                                 } else {
                                     task.setTitle(input);
-                                    System.out.println(task);
                                     break;
                                 }
                             }
@@ -112,28 +108,7 @@ public class EditTaskView implements View{
                             }
                         }
                         case 3 -> {
-                            for (; ; ) {
-                                System.out.println("Will this task be repeatable? If yes put +, if no put -");
-                                try {
-                                    input = reader.readLine();
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                                if (input.equals("-")) {
-                                    task.setRepeated(false);
-                                    break;
-                                } else if (input.equals("+")) {
-                                    task.setRepeated(true);
-                                    break;
-                                } else if (input.equals("0")) {
-                                    return Controller.MAIN_MENU_ACTION;
-                                } else {
-                                    System.out.println("Please make the right choice! If you want to cancel this process please put 0.");
-                                }
-                            }
-                        }
-                        case 4 -> {
-                            if (isRepeated) {
+                            if (task.isRepeated()) {
                                 dateConstructor = new Date(year,month,date,hour,minute);
                                 System.out.println("You need to input the start time of the task.");
 
@@ -153,9 +128,12 @@ public class EditTaskView implements View{
                                 minute = dateConstructor.getMinute();
 
                                 start = LocalDateTime.of(year, month, date, hour, minute);
-                                task.setTime(start);
-                                System.out.println("Ok, your task starts at " + start.format(dtf));
-                                System.out.println(task);
+                                if ((task.getEndTime()).isBefore(start)) {
+                                    System.out.println("Task end time is before start time. Please try again.");
+                                    return Controller.MAIN_MENU_ACTION;
+                                }
+                                task.setStart(start);
+                                System.out.println("Ok, now your task starts at " + start.format(dtf));
                             } else {
                                 dateConstructor = new Date(year,month,date,hour,minute);
                                 System.out.println("You need to input the time of the task.");
@@ -176,15 +154,43 @@ public class EditTaskView implements View{
 
                                 time = LocalDateTime.of(year, month, date, hour, minute);
                                 task.setTime(time);
-                                System.out.println("Ok, your task time is " + time.format(dtf));
-                                System.out.println(task);
+                                System.out.println("Ok, now your task time is " + time.format(dtf));
                             }
                         }
-                        case 5 -> {
+                        case 4 -> {
+                            dateConstructor = new Date(year,month,date,hour,minute);
+                            System.out.println("You need to input the end time of the task.");
 
+                            year = dateConstructor.getYear();
+                            if (year == 0) {
+                                return Controller.MAIN_MENU_ACTION;
+                            }
+                            month = dateConstructor.getMonth();
+                            if (month == 0) {
+                                return Controller.MAIN_MENU_ACTION;
+                            }
+                            date = dateConstructor.getDate();
+                            if (date == 0) {
+                                return Controller.MAIN_MENU_ACTION;
+                            }
+                            hour = dateConstructor.getHour();
+                            minute = dateConstructor.getMinute();
+
+                            end = LocalDateTime.of(year, month, date, hour, minute);
+                            if (end.isBefore(task.getStartTime())) {
+                                System.out.println("Task end time is before start time. Please try again.");
+                                return Controller.MAIN_MENU_ACTION;
+                            }
+                            task.setEnd(end);
+                            System.out.println("Ok, now your task ends at " + end.format(dtf));
                         }
-                        case 6 -> {
-
+                        case 5 -> {
+                            interval = dateConstructor.getInterval();
+                            if (interval == 0) {
+                                return Controller.MAIN_MENU_ACTION;
+                            }
+                            task.setInterval(interval);
+                            System.out.println("Ok, your task interval is " + interval);
                         }
                     }
                     break;
@@ -192,7 +198,6 @@ public class EditTaskView implements View{
             } else {
                 System.out.println("Please select an action number.");
             }
-
     }
 
         System.out.println("Task was edited.");

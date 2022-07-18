@@ -1,30 +1,22 @@
 package ua.edu.sumdu.j2se.malikova.tasks;
 
 import ua.edu.sumdu.j2se.malikova.tasks.controller.Controller;
-import ua.edu.sumdu.j2se.malikova.tasks.model.Task;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 
 public class  Date {
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private String title;
     private int interval;
-    private boolean isRepeated;
-    private LocalDateTime time;
-    private LocalDateTime start;
-    private LocalDateTime end;
-    String input;
-    int year;
-    int month;
-    int date;
-    int hour;
-    int minute;
-    Task task;
-    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd''HH:mm:ss");
+    private String input;
+    private int year;
+    private int month;
+    private int date;
+    private int hour;
+    private int minute;
+
 
     public Date(int year, int month, int date, int hour, int minute) {
         this.year = year;

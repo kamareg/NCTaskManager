@@ -17,7 +17,6 @@ public class MainController extends Controller {
         this.taskList = taskList;
 
         controllers.add(this);
-      //  controllers.add(new CreateNewTaskListController(new CreateNewTaskListView(), Controller.EMPTY_LIST_ACTION));
         controllers.add(new AddTaskController(new AddTaskView(),Controller.ADD_TASK_ACTION));
         controllers.add(new RemoveTaskController(new RemoveTaskView(), Controller.REMOVE_TASK_ACTION));
         controllers.add(new CalendarController(new CalendarView(), Controller.CALENDAR_ACTION));

@@ -11,7 +11,6 @@ public abstract class Controller {
     public static final int TASK_LIST_ACTION = 4;
     public static final int CALENDAR_ACTION = 5;
     public static final int EXIT_ACTION = 6;
-    public static final int EMPTY_LIST_ACTION = 7;
 
     protected View view;
     protected int actionToDo = 0;

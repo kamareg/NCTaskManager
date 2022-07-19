@@ -1,10 +1,4 @@
 package ua.edu.sumdu.j2se.malikova.tasks.model;
-
-import ua.edu.sumdu.j2se.malikova.tasks.model.AbstractTaskList;
-import ua.edu.sumdu.j2se.malikova.tasks.model.ArrayTaskList;
-import ua.edu.sumdu.j2se.malikova.tasks.model.LinkedTaskList;
-import ua.edu.sumdu.j2se.malikova.tasks.model.ListTypes;
-
 public class TaskListFactory {
     public static AbstractTaskList createTaskList(ListTypes.types type) {
         if (type.equals(ListTypes.types.ARRAY)) {

@@ -1,22 +1,20 @@
-package ua.edu.sumdu.j2se.malikova.tasks;
+package ua.edu.sumdu.j2se.malikova.tasks.model;
 
-import ua.edu.sumdu.j2se.malikova.tasks.controller.Controller;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.time.LocalDateTime;
 
 
 public class  Date {
-    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private int interval;
     private String input;
+    private int interval;
     private int year;
     private int month;
     private int date;
     private int hour;
     private int minute;
+    private LocalDateTime readyDate;
 
+    public Date() {
+    }
 
     public Date(int year, int month, int date, int hour, int minute) {
         this.year = year;
@@ -26,24 +24,28 @@ public class  Date {
         this.minute = minute;
     }
 
+    public LocalDateTime readyDate(){
+        year = getYear();
+        month = getMonth();
+        date = getDate();
+        hour = getHour();
+        minute = getMinute();
+        readyDate = LocalDateTime.of(year, month, date, hour, minute);
+        return readyDate;
+    }
+
     public int getYear() {
         for (; ; ) {
-            System.out.println("Please, write the year. If you want to cancel this process please put 0.");
-            try {
-                input = reader.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            System.out.println("Please, write the year.");
+            input = new Input().setInput();
             if (input.isEmpty()) {
                 System.out.println("This field cannot be empty!");
             } else if (input.matches("[0-9]*")) {
-                if (Integer.parseInt(input) > 0 && Integer.parseInt(input) < 2100) {
+                if (Integer.parseInt(input) >= 2022 && Integer.parseInt(input) < 2100) {
                     year = Integer.parseInt(input);
                     break;
-                } else if (Integer.parseInt(input) == 0) {
-                    return Controller.MAIN_MENU_ACTION;
                 } else {
-                    System.out.println("Year cannot be earlier than 0 and later than 2100!");
+                    System.out.println("Year cannot be earlier than 2022 and later than 2100!");
                 }
             } else {
                 System.out.println("Year is an integer");
@@ -53,14 +55,10 @@ public class  Date {
     }
 
     public int getMonth() {
-        month = 100;
+        month = 0;
         do {
-            System.out.println("Write the month. If you want to cancel this process please put 0.");
-            try {
-                input = reader.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            System.out.println("Write the month.");
+            input = new Input().setInput();
             switch (input) {
                 case ("JAN"), ("jan"), ("Jan"), ("January"), ("JANUARY"), ("january"), ("01"), ("1") -> {
                     month = 1;
@@ -98,25 +96,18 @@ public class  Date {
                 case ("DEC"), ("dec"), ("Dec"), ("December"), ("DECEMBER"), ("december"), ("12") -> {
                     month = 12;
                 }
-                case ("0") -> {
-                    return Controller.MAIN_MENU_ACTION;
-                }
                 default -> {
                     System.out.println("It's not correct format of month!");
                 }
             }
-        } while (!(month >= 0 && month <= 12));
+        } while (!(month > 0 && month <= 12));
         return month;
     }
 
     public int getDate() {
         for (; ; ) {
-            System.out.println("Please, write the day of month. If you want to cancel this process please put 0.");
-            try {
-                input = reader.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            System.out.println("Please, write the day of month.");
+            input = new Input().setInput();
             if (input.isEmpty()) {
                 System.out.println("This field cannot be empty!");
             } else if (input.matches("[0-9]*")) {
@@ -135,8 +126,6 @@ public class  Date {
                     }
                     date = Integer.parseInt(input);
                     break;
-                } else if (Integer.parseInt(input) == 0) {
-                    return Controller.MAIN_MENU_ACTION;
                 } else {
                     System.out.println("Please write the correct format!");
                 }
@@ -150,11 +139,7 @@ public class  Date {
     public int getHour() {
         for (; ; ) {
             System.out.println("Now it's time for the hours.");
-            try {
-                input = reader.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            input = new Input().setInput();
             if (input.isEmpty()) {
                 System.out.println("This field cannot be empty!");
             } else if (input.matches("[0-9]*")) {
@@ -174,11 +159,7 @@ public class  Date {
     public int getMinute() {
         for (; ; ) {
             System.out.println("And the last - enter the minutes.");
-            try {
-                input = reader.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            input = new Input().setInput();
             if (input.isEmpty()) {
                 System.out.println("This field cannot be empty!");
             } else if (input.matches("[0-9]*")) {
@@ -196,20 +177,17 @@ public class  Date {
     }
     public int getInterval() {
         for (; ; ) {
-            System.out.println("Please input the repeat interval. If you want to cancel this process please put 0.");
-            try {
-                input = reader.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            System.out.println("Please input the repeat interval.");
+            input = new Input().setInput();
             if (input.isEmpty()) {
                 System.out.println("This field cannot be empty!");
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) == 0) {
-                    return Controller.MAIN_MENU_ACTION;
+                    System.out.println("Interval is bigger than 0!");
+                } else {
+                    interval = Integer.parseInt(input);
+                    break;
                 }
-                interval = Integer.parseInt(input);
-                break;
             } else {
                 System.out.println("Interval is an integer");
             }

@@ -1,17 +1,18 @@
 package ua.edu.sumdu.j2se.malikova.tasks.controller;
 
 import ua.edu.sumdu.j2se.malikova.tasks.model.AbstractTaskList;
+import ua.edu.sumdu.j2se.malikova.tasks.model.TaskIO;
 import ua.edu.sumdu.j2se.malikova.tasks.view.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static ua.edu.sumdu.j2se.malikova.tasks.Main.saver;
 
 public class MainController extends Controller {
     private AbstractTaskList taskList;
     private List<Controller> controllers = new ArrayList<>();
-
-
-
     public MainController(AbstractTaskList taskList, View mainView) {
         super(mainView, Controller.MAIN_MENU_ACTION);
         this.taskList = taskList;
@@ -34,6 +35,7 @@ public class MainController extends Controller {
                 }
             }
             if (action == EXIT_ACTION) {
+                TaskIO.writeText(this.taskList, saver);
                 break;
             }
         }

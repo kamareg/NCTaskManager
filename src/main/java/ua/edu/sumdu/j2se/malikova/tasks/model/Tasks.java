@@ -31,7 +31,14 @@ public class Tasks {
                 key = task.nextTimeAfter(key);
             }
         }
-        return calendarTasks;
-    }
+        Set<LocalDateTime> keys = calendarTasks.keySet();
+        for (Map.Entry<LocalDateTime, Set<Task>> entry : calendarTasks.entrySet()) {
+            LocalDateTime dateTime = entry.getKey();
+            Set<Task> value = entry.getValue();
+            System.out.print("|" + dateTime + "| \t : \t");
+            System.out.println(value);
+        }
+            return calendarTasks;
 
+    }
 }

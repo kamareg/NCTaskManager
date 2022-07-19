@@ -1,52 +1,41 @@
 package ua.edu.sumdu.j2se.malikova.tasks.view;
 
-import ua.edu.sumdu.j2se.malikova.tasks.Date;
+import org.apache.log4j.Logger;
+import ua.edu.sumdu.j2se.malikova.tasks.model.Date;
+import ua.edu.sumdu.j2se.malikova.tasks.model.Input;
+import ua.edu.sumdu.j2se.malikova.tasks.model.Validation;
 import ua.edu.sumdu.j2se.malikova.tasks.controller.Controller;
 import ua.edu.sumdu.j2se.malikova.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.malikova.tasks.model.Task;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class EditTaskView implements View{
-    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+public class EditTaskView implements View {
     private Task task;
-    private Date dateConstructor;
     private int interval;
     private LocalDateTime time;
     private LocalDateTime start;
     private LocalDateTime end;
     private String input;
     private int taskNumber;
-    private int year;
-    private int month;
-    private int date;
-    private int hour;
-    private int minute;
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd''HH:mm:ss");
+    public final Logger logger = Logger.getLogger(EditTaskView.class);
 
     @Override
     public int printInfo(AbstractTaskList taskList) {
-        if(taskList.size()==0) {
+        if (taskList.size() == 0) {
             System.out.println("There are no tasks in your list yet. Please add tasks to the list first.");
+            logger.warn("There are no tasks in list.");
             return Controller.MAIN_MENU_ACTION;
         }
         System.out.println(taskList);
-        System.out.println("What task do you want to edit? Please, enter a sequence number. If you want to cancel this process please put 0.");
-        getTask(taskList);
-
-        if (taskNumber == 0) {
-            return Controller.MAIN_MENU_ACTION;
-        }
-        task = taskList.getTask(taskNumber-1);
+        System.out.println("What task do you want to edit? Please, enter a sequence number.");
+        taskNumber = new Validation().getTask(taskList);
+        task = taskList.getTask(taskNumber - 1);
         System.out.println("Your choice is: \n" + task);
-
         System.out.println("What do you want to edit?");
         System.out.println("Choose from the list below.\n 1. Task title. \n 2. Task activity. ");
-        if (task.isRepeated()){
+        if (task.isRepeated()) {
             System.out.println(" 3. Task start time.\n 4. Task end time.\n 5. Task repeated interval.");
         } else {
             System.out.println(" 3. Task time.");
@@ -54,178 +43,76 @@ public class EditTaskView implements View{
         System.out.println("If you want to cancel this process please put 0.");
 
         for (; ; ) {
-            try {
-                input = reader.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            input = new Input().setInput();
             if (input.isEmpty()) {
                 System.out.println("Please select an action number.");
+                logger.error("Empty required field");
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) == 0) {
                     return Controller.MAIN_MENU_ACTION;
                 } else if (task.isRepeated() && Integer.parseInt(input) > 5) {
                     System.out.println("Please select an action number.");
+                    logger.error("Limit exceeded");
                 } else if (!(task.isRepeated()) && Integer.parseInt(input) > 3) {
+                    logger.error("Limit exceeded");
                     System.out.println("Please select an action number.");
                 } else {
                     switch (Integer.parseInt(input)) {
                         case 1 -> {
-                            for (; ; ) {
-                                System.out.println("What is the title of the task?");
-                                try {
-                                    input = reader.readLine();
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                                if (input.isEmpty()) {
-                                    System.out.println("Title cannot be empty!");
-                                } else {
-                                    task.setTitle(input);
-                                    break;
-                                }
-                            }
+                            task.setTitle(new Validation().titleValidation());
+                            logger.info("Task title was changed.");
                         }
                         case 2 -> {
-                            for (; ; ) {
-                                System.out.println("What status do you want to set for the task? If active put +, if not active put -");
-                                try {
-                                    input = reader.readLine();
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                                if (input.equals("-")) {
-                                    task.setActive(false);
-                                    break;
-                                } else if (input.equals("+")) {
-                                    task.setActive(true);
-                                    break;
-                                } else if (input.equals("0")) {
-                                    return Controller.MAIN_MENU_ACTION;
-                                } else {
-                                    System.out.println("Please make the right choice! If you want to cancel this process please put 0.");
-                                }
-                            }
+                            task.setActive(new Validation().repeatedValidation());
+                            logger.info("Task activity was changed.");
                         }
                         case 3 -> {
                             if (task.isRepeated()) {
-                                dateConstructor = new Date(year,month,date,hour,minute);
                                 System.out.println("You need to input the start time of the task.");
-
-                                year = dateConstructor.getYear();
-                                if (year == 0) {
-                                    return Controller.MAIN_MENU_ACTION;
-                                }
-                                month = dateConstructor.getMonth();
-                                if (month == 0) {
-                                    return Controller.MAIN_MENU_ACTION;
-                                }
-                                date = dateConstructor.getDate();
-                                if (date == 0) {
-                                    return Controller.MAIN_MENU_ACTION;
-                                }
-                                hour = dateConstructor.getHour();
-                                minute = dateConstructor.getMinute();
-
-                                start = LocalDateTime.of(year, month, date, hour, minute);
+                                start = new Date().readyDate();
                                 if ((task.getEndTime()).isBefore(start)) {
                                     System.out.println("Task end time is before start time. Please try again.");
+                                    logger.warn("Task end time is before start time.");
                                     return Controller.MAIN_MENU_ACTION;
                                 }
                                 task.setStart(start);
                                 System.out.println("Ok, now your task starts at " + start.format(dtf));
+                                logger.info("Task start time was changed.");
                             } else {
-                                dateConstructor = new Date(year,month,date,hour,minute);
                                 System.out.println("You need to input the time of the task.");
-                                year = dateConstructor.getYear();
-                                if (year == 0) {
-                                    return Controller.MAIN_MENU_ACTION;
-                                }
-                                month = dateConstructor.getMonth();
-                                if (month == 0) {
-                                    return Controller.MAIN_MENU_ACTION;
-                                }
-                                date = dateConstructor.getDate();
-                                if (date == 0) {
-                                    return Controller.MAIN_MENU_ACTION;
-                                }
-                                hour = dateConstructor.getHour();
-                                minute = dateConstructor.getMinute();
-
-                                time = LocalDateTime.of(year, month, date, hour, minute);
+                                time = new Date().readyDate();
                                 task.setTime(time);
                                 System.out.println("Ok, now your task time is " + time.format(dtf));
+                                logger.info("Task time was changed.");
                             }
                         }
                         case 4 -> {
-                            dateConstructor = new Date(year,month,date,hour,minute);
                             System.out.println("You need to input the end time of the task.");
-
-                            year = dateConstructor.getYear();
-                            if (year == 0) {
-                                return Controller.MAIN_MENU_ACTION;
-                            }
-                            month = dateConstructor.getMonth();
-                            if (month == 0) {
-                                return Controller.MAIN_MENU_ACTION;
-                            }
-                            date = dateConstructor.getDate();
-                            if (date == 0) {
-                                return Controller.MAIN_MENU_ACTION;
-                            }
-                            hour = dateConstructor.getHour();
-                            minute = dateConstructor.getMinute();
-
-                            end = LocalDateTime.of(year, month, date, hour, minute);
+                            end = new Date().readyDate();
                             if (end.isBefore(task.getStartTime())) {
                                 System.out.println("Task end time is before start time. Please try again.");
+                                logger.warn("Task end time is before start time.");
                                 return Controller.MAIN_MENU_ACTION;
                             }
                             task.setEnd(end);
                             System.out.println("Ok, now your task ends at " + end.format(dtf));
+                            logger.info("Task end time was changed.");
                         }
                         case 5 -> {
-                            interval = dateConstructor.getInterval();
-                            if (interval == 0) {
-                                return Controller.MAIN_MENU_ACTION;
-                            }
+                            interval = new Date().getInterval();
                             task.setInterval(interval);
                             System.out.println("Ok, your task interval is " + interval);
+                            logger.info("Task interval was changed.");
                         }
                     }
                     break;
                 }
             } else {
                 System.out.println("Please select an action number.");
-            }
-    }
-
-        System.out.println("Task was edited.");
-        return Controller.MAIN_MENU_ACTION;
-    }
-
-    private int getTask(AbstractTaskList taskList){
-        for (; ; ) {
-            try {
-                input = reader.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            if (input.isEmpty()) {
-                System.out.println("Please, enter a sequence number.");
-            } else if (input.matches("[0-9]*")) {
-                if (Integer.parseInt(input) == 0) {
-                    return Controller.MAIN_MENU_ACTION;
-                } else if (Integer.parseInt(input) > taskList.size()) {
-                    System.out.println("Please enter a value within the bounds of the list!");
-                } else {
-                    taskNumber = Integer.parseInt(input);
-                    break;
-                }
-            } else {
-                System.out.println("Please, enter a sequence number.");
+                logger.error("Required field not filled correctly");
             }
         }
-        return taskNumber;
+        System.out.println("Task was edited.");
+        return Controller.MAIN_MENU_ACTION;
     }
 }

@@ -22,6 +22,10 @@ public class Main {
         logger.info("List read from file");
         View mainView = new MainView();
         Controller mainController = new MainController(taskList, mainView);
+        Notificator notificator = new Notificator(taskList);
+        notificator.setDaemon(true);
+        notificator.start();
+        logger.info("Notificator is started");
         mainController.process(null);
         System.out.println("See you later");
         logger.info("Task Manager is closed");

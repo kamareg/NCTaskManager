@@ -8,8 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class CalendarView implements View{
-    private LocalDateTime first;
-    private LocalDateTime second;
+    private LocalDateTime first, second;
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd''HH:mm:ss");
     public final Logger logger = Logger.getLogger(CalendarView.class);
     @Override

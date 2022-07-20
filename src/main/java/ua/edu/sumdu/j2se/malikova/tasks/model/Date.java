@@ -7,12 +7,7 @@ import java.time.LocalDateTime;
 
 public class Date {
     private String input;
-    private int interval;
-    private int year;
-    private int month;
-    private int date;
-    private int hour;
-    private int minute;
+    private int interval, year, month, date, hour, minute;
     private LocalDateTime readyDate;
     public final Logger logger = Logger.getLogger(Date.class);
 

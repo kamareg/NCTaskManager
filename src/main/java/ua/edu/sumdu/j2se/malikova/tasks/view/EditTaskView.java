@@ -13,12 +13,9 @@ import java.time.format.DateTimeFormatter;
 
 public class EditTaskView implements View {
     private Task task;
-    private int interval;
-    private LocalDateTime time;
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private int interval, taskNumber;
+    private LocalDateTime time, start, end;
     private String input;
-    private int taskNumber;
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd''HH:mm:ss");
     public final Logger logger = Logger.getLogger(EditTaskView.class);
     private static final int TASK_TITLE = 1;

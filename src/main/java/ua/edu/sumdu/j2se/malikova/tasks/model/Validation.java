@@ -3,8 +3,7 @@ package ua.edu.sumdu.j2se.malikova.tasks.model;
 import org.apache.log4j.Logger;
 
 public class Validation {
-    private String input;
-    private String title;
+    private String input, title;
     private boolean isRepeated;
     private int taskNumber;
     public final Logger logger = Logger.getLogger(Validation.class);

@@ -11,11 +11,8 @@ public class Task implements Cloneable, Serializable {
 
     private String title;
     private int interval;
-    private boolean active;
-    private boolean isRepeated;
-    private LocalDateTime time;
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private boolean active, isRepeated;
+    private LocalDateTime time, start, end;
     public final Logger logger = Logger.getLogger(Task.class);
 
     /**

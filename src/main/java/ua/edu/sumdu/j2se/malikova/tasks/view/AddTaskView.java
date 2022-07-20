@@ -13,9 +13,7 @@ public class AddTaskView implements View {
     private String title;
     private int interval;
     private boolean isRepeated;
-    private LocalDateTime time;
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private LocalDateTime time, start, end;
     private Task task;
     public final Logger logger = Logger.getLogger(AddTaskView.class);
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd''HH:mm:ss");

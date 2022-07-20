@@ -1,9 +1,11 @@
 package ua.edu.sumdu.j2se.malikova.tasks.model;
 
+import org.apache.log4j.Logger;
+
 import java.time.LocalDateTime;
 
 
-public class  Date {
+public class Date {
     private String input;
     private int interval;
     private int year;
@@ -12,6 +14,7 @@ public class  Date {
     private int hour;
     private int minute;
     private LocalDateTime readyDate;
+    public final Logger logger = Logger.getLogger(Date.class);
 
     public Date() {
     }
@@ -24,7 +27,7 @@ public class  Date {
         this.minute = minute;
     }
 
-    public LocalDateTime readyDate(){
+    public LocalDateTime readyDate() {
         year = getYear();
         month = getMonth();
         date = getDate();
@@ -40,15 +43,18 @@ public class  Date {
             input = new Input().setInput();
             if (input.isEmpty()) {
                 System.out.println("This field cannot be empty!");
+                logger.error("Empty required field");
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) >= 2022 && Integer.parseInt(input) < 2100) {
                     year = Integer.parseInt(input);
                     break;
                 } else {
                     System.out.println("Year cannot be earlier than 2022 and later than 2100!");
+                    logger.error("Required field not filled correctly");
                 }
             } else {
                 System.out.println("Year is an integer");
+                logger.error("Required field not filled correctly");
             }
         }
         return year;
@@ -98,6 +104,7 @@ public class  Date {
                 }
                 default -> {
                     System.out.println("It's not correct format of month!");
+                    logger.error("Required field not filled correctly");
                 }
             }
         } while (!(month > 0 && month <= 12));
@@ -110,17 +117,19 @@ public class  Date {
             input = new Input().setInput();
             if (input.isEmpty()) {
                 System.out.println("This field cannot be empty!");
+                logger.error("Empty required field");
             } else if (input.matches("[0-9]*")) {
-
                 if (Integer.parseInt(input) > 0 && Integer.parseInt(input) <= 31) {
                     if (month == 2) {
                         if (Integer.parseInt(input) > 29) {
                             System.out.println("There aren't many days this month!");
+                            logger.error("Required field not filled correctly");
                             continue;
                         }
                     } else if (month == 4 || month == 6 || month == 9 || month == 11) {
                         if (Integer.parseInt(input) > 30) {
                             System.out.println("There aren't many days this month!");
+                            logger.error("Required field not filled correctly");
                             continue;
                         }
                     }
@@ -128,9 +137,11 @@ public class  Date {
                     break;
                 } else {
                     System.out.println("Please write the correct format!");
+                    logger.error("Required field not filled correctly");
                 }
             } else {
                 System.out.println("Day is an integer");
+                logger.error("Required field not filled correctly");
             }
         }
         return date;
@@ -142,15 +153,18 @@ public class  Date {
             input = new Input().setInput();
             if (input.isEmpty()) {
                 System.out.println("This field cannot be empty!");
+                logger.error("Empty required field");
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) >= 0 && Integer.parseInt(input) < 24) {
                     hour = Integer.parseInt(input);
                     break;
                 } else {
                     System.out.println("The hour cannot be less than 0 and greater than 23!");
+                    logger.error("Required field not filled correctly");
                 }
             } else {
                 System.out.println("Hour is an integer");
+                logger.error("Required field not filled correctly");
             }
         }
         return hour;
@@ -162,37 +176,43 @@ public class  Date {
             input = new Input().setInput();
             if (input.isEmpty()) {
                 System.out.println("This field cannot be empty!");
+                logger.error("Empty required field");
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) >= 0 && Integer.parseInt(input) < 60) {
                     minute = Integer.parseInt(input);
                     break;
                 } else {
                     System.out.println("The minute cannot be less than 0 and greater than 59!");
+                    logger.error("Required field not filled correctly");
                 }
             } else {
                 System.out.println("Minute is an integer");
+                logger.error("Required field not filled correctly");
             }
         }
         return minute;
     }
+
     public int getInterval() {
         for (; ; ) {
             System.out.println("Please input the repeat interval.");
             input = new Input().setInput();
             if (input.isEmpty()) {
                 System.out.println("This field cannot be empty!");
+                logger.error("Empty required field");
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) == 0) {
                     System.out.println("Interval is bigger than 0!");
+                    logger.error("Required field not filled correctly");
                 } else {
                     interval = Integer.parseInt(input);
                     break;
                 }
             } else {
                 System.out.println("Interval is an integer");
+                logger.error("Required field not filled correctly");
             }
         }
         return interval;
     }
-
 }

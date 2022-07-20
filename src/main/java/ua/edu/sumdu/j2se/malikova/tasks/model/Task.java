@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2se.malikova.tasks.model;
 
+import org.apache.log4j.Logger;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -15,6 +16,7 @@ public class Task implements Cloneable, Serializable {
     private LocalDateTime time;
     private LocalDateTime start;
     private LocalDateTime end;
+    public final Logger logger = Logger.getLogger(Task.class);
 
     /**
      * Конструктор, що конструює неактивну задачу,
@@ -26,7 +28,7 @@ public class Task implements Cloneable, Serializable {
 
     public Task(String title, LocalDateTime time) {
         if (time == null) {
-            throw new IllegalArgumentException("Потрібно задати час");
+            logger.error("Time is not set");
         }
         this.title = title;
         this.time = time;
@@ -46,7 +48,7 @@ public class Task implements Cloneable, Serializable {
 
     public Task(String title, LocalDateTime start, LocalDateTime end, int interval) {
         if (start == null || end == null || interval < 0) {
-            throw new IllegalArgumentException("Потрібно задати час");
+            logger.error("Time is not set");
         }
         this.title = title;
         this.start = start;
@@ -121,7 +123,7 @@ public class Task implements Cloneable, Serializable {
 
     public void setTime(LocalDateTime time) {
         if (time == null) {
-            throw new IllegalArgumentException("Потрібно задати час");
+            logger.error("Time is not set");
         }
         if (isRepeated()) {
             setRepeated(false);
@@ -186,7 +188,7 @@ public class Task implements Cloneable, Serializable {
 
     public void setTime(LocalDateTime start, LocalDateTime end, int interval) {
         if (start == null || end == null || interval < 0) {
-            throw new IllegalArgumentException("Потрібно задати час");
+            logger.error("Time is not set");
         }
         if (!isRepeated()) {
             setRepeated(true);
@@ -237,8 +239,8 @@ public class Task implements Cloneable, Serializable {
      */
 
     public LocalDateTime nextTimeAfter(LocalDateTime current) {
-        if (current == null) {
-            throw new IllegalArgumentException("Потрібно задати час");
+       if (current == null) {
+            logger.error("Time is not set");
         }
         LocalDateTime nextAfter = null;
         if (this.isActive()) {
@@ -319,5 +321,3 @@ public class Task implements Cloneable, Serializable {
         return super.clone();
     }
 }
-
-

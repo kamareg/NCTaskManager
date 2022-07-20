@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2se.malikova.tasks.model;
 
+import org.apache.log4j.Logger;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
@@ -8,13 +9,12 @@ public class LinkedTaskList extends AbstractTaskList {
     private static class Link {
         public Task task;
         public Link next;
-
         public Link(Task task) {
             this.task = task;
         }
     }
     private Link first;
-
+    public final Logger logger = Logger.getLogger(LinkedTaskList.class);
     public LinkedTaskList() {
         this.type = ListTypes.types.LINKED;
     }
@@ -34,7 +34,7 @@ public class LinkedTaskList extends AbstractTaskList {
             @Override
             public Task next() {
                 if (current == null) {
-                    throw new IndexOutOfBoundsException();
+                    logger.error("There is null task");
                 }
                 lastReturned = current;
                 current = current.next;
@@ -45,7 +45,7 @@ public class LinkedTaskList extends AbstractTaskList {
             @Override
             public void remove() {
                 if (lastReturned == null) {
-                    throw new IllegalStateException();
+                    logger.error("There is null task");
                 }
                 LinkedTaskList.this.remove(lastReturned.task);
                 lastReturned = null;
@@ -57,7 +57,7 @@ public class LinkedTaskList extends AbstractTaskList {
     @Override
     public void add(Task task) {
         if (task == null) {
-            throw new IllegalArgumentException("Потрібно ввести задачу");
+            logger.error("There is null task");
         }
         if (first == null) {
             first = new Link(task);
@@ -71,7 +71,7 @@ public class LinkedTaskList extends AbstractTaskList {
     @Override
     public boolean remove(Task task) {
         if (task == null) {
-            throw new IllegalArgumentException("Потрібно ввести задачу");
+            logger.error("There is null task");
         }
         Link current = first;
         Link previous = null;
@@ -107,7 +107,7 @@ public class LinkedTaskList extends AbstractTaskList {
     @Override
     public Task getTask(int index) {
         if (index < 0 || index >= size()) {
-            throw new IndexOutOfBoundsException("Необхідно ввести допустиме значення");
+            logger.error("List border violation");
         }
         Link current = first;
         int i = 0;

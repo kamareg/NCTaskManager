@@ -2,6 +2,7 @@ package ua.edu.sumdu.j2se.malikova.tasks.model;
 
 import com.google.gson.*;
 import com.google.gson.stream.JsonWriter;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 
 public class TaskIO {
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd''HH:mm:ss.n");
+    public static final Logger logger = Logger.getLogger(TaskIO.class);
 
     public static void write(AbstractTaskList tasks, OutputStream out) {
         try (DataOutputStream outputStream = new DataOutputStream(out)) {
@@ -27,7 +29,7 @@ public class TaskIO {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("RuntimeException", e);
         }
     }
 
@@ -52,7 +54,7 @@ public class TaskIO {
                 tasks.add(task);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("RuntimeException", e);
         }
     }
 
@@ -60,7 +62,7 @@ public class TaskIO {
         try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
             TaskIO.write(tasks, fileOutputStream);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("RuntimeException", e);
         }
     }
 
@@ -68,7 +70,7 @@ public class TaskIO {
         try (FileInputStream fileInputStream = new FileInputStream(file)) {
             TaskIO.read(tasks, fileInputStream);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("RuntimeException", e);
         }
     }
 
@@ -93,31 +95,35 @@ public class TaskIO {
             jsonWriter.endArray();
             jsonWriter.endObject();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("RuntimeException", e);
         }
     }
 
 
     public static void read(AbstractTaskList tasks, Reader in) {
         Task task;
-        Object obj = new JsonParser().parse(in);
-        JsonObject jsonObject = (JsonObject) obj;
-        JsonArray array = (JsonArray) jsonObject.get("Task list");
-        for (JsonElement jsonElement : array) {
-            JsonObject taskFromArray = (JsonObject) jsonElement;
-            String title = (String.valueOf(taskFromArray.get("title"))).replace("\"", "");
-            boolean active = (taskFromArray.get("activity")).getAsBoolean();
-            int interval = (taskFromArray.get("interval")).getAsInt();
-            if (interval != 0) {
-                LocalDateTime startTime = LocalDateTime.parse(((taskFromArray.get("start time")).getAsString()), dtf);
-                LocalDateTime endTime = LocalDateTime.parse(((taskFromArray.get("end time")).getAsString()), dtf);
-                task = new Task(title, startTime, endTime, interval);
-            } else {
-                LocalDateTime time = LocalDateTime.parse(((taskFromArray.get("time")).getAsString()), dtf);
-                task = new Task(title, time);
+        try {
+            Object obj = new JsonParser().parse(in);
+            JsonObject jsonObject = (JsonObject) obj;
+            JsonArray array = (JsonArray) jsonObject.get("Task list");
+            for (JsonElement jsonElement : array) {
+                JsonObject taskFromArray = (JsonObject) jsonElement;
+                String title = (String.valueOf(taskFromArray.get("title"))).replace("\"", "");
+                boolean active = (taskFromArray.get("activity")).getAsBoolean();
+                int interval = (taskFromArray.get("interval")).getAsInt();
+                if (interval != 0) {
+                    LocalDateTime startTime = LocalDateTime.parse(((taskFromArray.get("start time")).getAsString()), dtf);
+                    LocalDateTime endTime = LocalDateTime.parse(((taskFromArray.get("end time")).getAsString()), dtf);
+                    task = new Task(title, startTime, endTime, interval);
+                } else {
+                    LocalDateTime time = LocalDateTime.parse(((taskFromArray.get("time")).getAsString()), dtf);
+                    task = new Task(title, time);
+                }
+                task.setActive(active);
+                tasks.add(task);
             }
-            task.setActive(active);
-            tasks.add(task);
+        } catch (JsonIOException | JsonSyntaxException e) {
+            logger.error("RuntimeException", e);
         }
     }
 
@@ -125,7 +131,7 @@ public class TaskIO {
         try (FileWriter fileWriter = new FileWriter(file)) {
             TaskIO.write(tasks, fileWriter);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("RuntimeException", e);
         }
     }
 
@@ -133,7 +139,7 @@ public class TaskIO {
         try (FileReader fileReader = new FileReader(file)) {
             TaskIO.read(tasks, fileReader);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("RuntimeException", e);
         }
     }
 }

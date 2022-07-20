@@ -11,9 +11,11 @@ public class Notificator extends Thread {
     public final Logger logger = Logger.getLogger(Notificator.class);
     public static final int HOUR_MONITORING_TIME = 2;
     public static final int THREAD_SLEEP_TIME = 100000;
+
     public Notificator(AbstractTaskList taskList) {
         this.taskList = taskList;
     }
+
     @Override
     public void run() {
         for (; ; ) {

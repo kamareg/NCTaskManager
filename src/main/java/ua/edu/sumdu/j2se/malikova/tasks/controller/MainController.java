@@ -3,8 +3,6 @@ package ua.edu.sumdu.j2se.malikova.tasks.controller;
 import ua.edu.sumdu.j2se.malikova.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.malikova.tasks.model.TaskIO;
 import ua.edu.sumdu.j2se.malikova.tasks.view.*;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

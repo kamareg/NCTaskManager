@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2se.malikova.tasks.model;
 
+import org.apache.log4j.Logger;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.stream.Stream;
@@ -7,6 +8,7 @@ import java.util.stream.Stream;
 public class ArrayTaskList extends AbstractTaskList {
     private Task[] array = new Task[10];
     private int counter;
+    public final Logger logger = Logger.getLogger(ArrayTaskList.class);
 
     public ArrayTaskList() {
         this.type = ListTypes.types.ARRAY;
@@ -15,7 +17,7 @@ public class ArrayTaskList extends AbstractTaskList {
     @Override
     public void add(Task task) {
         if (task == null) {
-            throw new IllegalArgumentException("Потрібно ввести задачу");
+            logger.error("There is null task");
         }
         if (array.length == counter) {
             array = Arrays.copyOf(array, (array.length + 3));
@@ -27,7 +29,7 @@ public class ArrayTaskList extends AbstractTaskList {
     @Override
     public boolean remove(Task task) {
         if (task == null) {
-            throw new IllegalArgumentException("Потрібно ввести задачу");
+            logger.error("There is null task");
         }
         for (int i = 0; i < array.length; i++) {
             if (array[i] == task) {
@@ -50,19 +52,17 @@ public class ArrayTaskList extends AbstractTaskList {
     public int size() {
         int countingTasks = 0;
         for (int i = 0; i < array.length; i++) {
-
             if (array[i] != null) {
                 countingTasks += 1;
             }
         }
         return countingTasks;
-
     }
 
     @Override
     public Task getTask(int index) {
         if (index < 0 || index >= array.length) {
-            throw new IndexOutOfBoundsException("Необхідно ввести допустиме значення");
+            logger.error("List border violation");
         }
         return array[index];
     }
@@ -104,7 +104,7 @@ public class ArrayTaskList extends AbstractTaskList {
             @Override
             public void remove() {
                 if (lastReturned == null) {
-                    throw new IllegalStateException();
+                    logger.error("There is null task");
                 }
                 ArrayTaskList.this.remove(lastReturned);
                 lastReturned = null;

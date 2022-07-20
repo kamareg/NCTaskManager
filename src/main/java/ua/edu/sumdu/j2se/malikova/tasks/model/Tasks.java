@@ -12,7 +12,6 @@ public class Tasks {
                 .collect(Collectors.toList());
     }
 
-
     public static SortedMap<LocalDateTime, Set<Task>> calendar(Iterable<Task> tasks, LocalDateTime start, LocalDateTime end) {
         Iterable<Task> incoming = Tasks.incoming(tasks, start, end);
         SortedMap<LocalDateTime, Set<Task>> calendarTasks = new TreeMap<>();
@@ -31,7 +30,6 @@ public class Tasks {
                 key = task.nextTimeAfter(key);
             }
         }
-        Set<LocalDateTime> keys = calendarTasks.keySet();
         for (Map.Entry<LocalDateTime, Set<Task>> entry : calendarTasks.entrySet()) {
             LocalDateTime dateTime = entry.getKey();
             Set<Task> value = entry.getValue();
@@ -39,6 +37,5 @@ public class Tasks {
             System.out.println(value);
         }
             return calendarTasks;
-
     }
 }

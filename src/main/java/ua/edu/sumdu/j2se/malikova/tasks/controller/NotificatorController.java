@@ -1,18 +1,24 @@
-package ua.edu.sumdu.j2se.malikova.tasks;
+package ua.edu.sumdu.j2se.malikova.tasks.controller;
 
 import org.apache.log4j.Logger;
 import ua.edu.sumdu.j2se.malikova.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.malikova.tasks.model.Task;
+import ua.edu.sumdu.j2se.malikova.tasks.view.NotificatorView;
+import ua.edu.sumdu.j2se.malikova.tasks.view.View;
 
 import java.time.LocalDateTime;
 
-public class Notificator extends Thread {
+/**
+ * A class for notification process.
+ */
+public class NotificatorController extends Thread {
+    View view = new NotificatorView();
     private AbstractTaskList taskList;
-    public final Logger logger = Logger.getLogger(Notificator.class);
+    public final Logger logger = Logger.getLogger(NotificatorController.class);
     public static final int HOUR_MONITORING_TIME = 2;
     public static final int THREAD_SLEEP_TIME = 100000;
 
-    public Notificator(AbstractTaskList taskList) {
+    public NotificatorController(AbstractTaskList taskList) {
         this.taskList = taskList;
     }
 
@@ -22,9 +28,8 @@ public class Notificator extends Thread {
             for (Task task : taskList) {
                 if (!(task.nextTimeAfter(LocalDateTime.now()) == null)) {
                     if ((task.nextTimeAfter(LocalDateTime.now())).isBefore(LocalDateTime.now().plusHours(HOUR_MONITORING_TIME))) {
-                        System.out.print("Attention! Your task \"");
-                        System.out.print(task.getTitle() + "\" will start at ");
-                        System.out.println(task.nextTimeAfter(LocalDateTime.now()));
+                        view.text("Attention! ");
+                        view.text("Your task \"", task.getTitle(), "\" will start at ", String.valueOf(task.nextTimeAfter(LocalDateTime.now())));
                     }
                 }
             }

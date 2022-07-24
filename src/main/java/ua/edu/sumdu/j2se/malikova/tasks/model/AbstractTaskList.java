@@ -3,7 +3,9 @@ package ua.edu.sumdu.j2se.malikova.tasks.model;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.stream.Stream;
-
+/**
+ * A class containing methods for working with Abstract Task List, that is a parent for ArrayTaskList and LinkedTaskList.
+ */
 public abstract class AbstractTaskList implements Iterable<Task>, Cloneable, Serializable {
     protected ListTypes.types type;
 

@@ -1,20 +1,31 @@
-package ua.edu.sumdu.j2se.malikova.tasks.model;
+package ua.edu.sumdu.j2se.malikova.tasks.controller;
 
 import org.apache.log4j.Logger;
+import ua.edu.sumdu.j2se.malikova.tasks.Enum;
+import ua.edu.sumdu.j2se.malikova.tasks.view.DateView;
+import ua.edu.sumdu.j2se.malikova.tasks.view.View;
 
 import java.time.LocalDateTime;
 
+/**
+ * A class containing constructors and methods for working with dates.
+ */
 
-public class Date {
+public class DateController extends Controller {
     private String input;
     private int interval, year, month, date, hour, minute;
     private LocalDateTime readyDate;
-    public final Logger logger = Logger.getLogger(Date.class);
+    public final Logger logger = Logger.getLogger(DateController.class);
+    View view = new DateView();
 
-    public Date() {
+    public DateController() {
     }
 
-    public Date(int year, int month, int date, int hour, int minute) {
+    public DateController(View view, int action) {
+        super(view, action);
+    }
+
+    public DateController(int year, int month, int date, int hour, int minute) {
         this.year = year;
         this.month = month;
         this.date = date;
@@ -34,22 +45,22 @@ public class Date {
 
     public int getYear() {
         for (; ; ) {
-            System.out.println("Please, write the year.");
-            input = new Input().setInput();
+            view.text(Enum.WRITE_YEAR);
+            input = view.input();
             if (input.isEmpty()) {
-                System.out.println("This field cannot be empty!");
-                logger.error("Empty required field");
+                view.text(Enum.FIELD_CANT_BE_EMPTY);
+                logger.error(Enum.EMPTY_FIELD);
             } else if (input.matches("[0-9]*")) {
-                if (Integer.parseInt(input) >= 2022 && Integer.parseInt(input) < 2100) {
+                if (Integer.parseInt(input) >= Enum.START_MANAGER_YEAR && Integer.parseInt(input) < Enum.END_MANAGER_YEAR) {
                     year = Integer.parseInt(input);
                     break;
                 } else {
-                    System.out.println("Year cannot be earlier than 2022 and later than 2100!");
-                    logger.error("Required field not filled correctly");
+                    view.text(Enum.CANT_BE_LESS, String.valueOf(Enum.START_MANAGER_YEAR), Enum.CANT_BE_MORE, String.valueOf(Enum.END_MANAGER_YEAR));
+                    logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
                 }
             } else {
-                System.out.println("Year is an integer");
-                logger.error("Required field not filled correctly");
+                view.text(Enum.MUST_BE_INTEGER);
+                logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
             }
         }
         return year;
@@ -58,8 +69,8 @@ public class Date {
     public int getMonth() {
         month = 0;
         do {
-            System.out.println("Write the month.");
-            input = new Input().setInput();
+            view.text(Enum.WRITE_MONTH);
+            input = view.input();
             switch (input) {
                 case ("JAN"), ("jan"), ("Jan"), ("January"), ("JANUARY"), ("january"), ("01"), ("1") -> {
                     month = 1;
@@ -98,8 +109,8 @@ public class Date {
                     month = 12;
                 }
                 default -> {
-                    System.out.println("It's not correct format of month!");
-                    logger.error("Required field not filled correctly");
+                    view.text(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                    logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
                 }
             }
         } while (!(month > 0 && month <= 12));
@@ -108,35 +119,35 @@ public class Date {
 
     public int getDate() {
         for (; ; ) {
-            System.out.println("Please, write the day of month.");
-            input = new Input().setInput();
+            view.text(Enum.WRITE_DAY);
+            input = view.input();
             if (input.isEmpty()) {
-                System.out.println("This field cannot be empty!");
-                logger.error("Empty required field");
+                view.text(Enum.FIELD_CANT_BE_EMPTY);
+                logger.error(Enum.EMPTY_FIELD);
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) > 0 && Integer.parseInt(input) <= 31) {
                     if (month == 2) {
                         if (Integer.parseInt(input) > 29) {
-                            System.out.println("There aren't many days this month!");
-                            logger.error("Required field not filled correctly");
+                            view.text(Enum.LIMITS_DAYS);
+                            logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
                             continue;
                         }
                     } else if (month == 4 || month == 6 || month == 9 || month == 11) {
                         if (Integer.parseInt(input) > 30) {
-                            System.out.println("There aren't many days this month!");
-                            logger.error("Required field not filled correctly");
+                            view.text(Enum.LIMITS_DAYS);
+                            logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
                             continue;
                         }
                     }
                     date = Integer.parseInt(input);
                     break;
                 } else {
-                    System.out.println("Please write the correct format!");
-                    logger.error("Required field not filled correctly");
+                    view.text(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                    logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
                 }
             } else {
-                System.out.println("Day is an integer");
-                logger.error("Required field not filled correctly");
+                view.text(Enum.MUST_BE_INTEGER);
+                logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
             }
         }
         return date;
@@ -144,22 +155,22 @@ public class Date {
 
     public int getHour() {
         for (; ; ) {
-            System.out.println("Now it's time for the hours.");
-            input = new Input().setInput();
+            view.text(Enum.WRITE_HOUR);
+            input = view.input();
             if (input.isEmpty()) {
-                System.out.println("This field cannot be empty!");
-                logger.error("Empty required field");
+                view.text(Enum.FIELD_CANT_BE_EMPTY);
+                logger.error(Enum.EMPTY_FIELD);
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) >= 0 && Integer.parseInt(input) < 24) {
                     hour = Integer.parseInt(input);
                     break;
                 } else {
-                    System.out.println("The hour cannot be less than 0 and greater than 23!");
-                    logger.error("Required field not filled correctly");
+                    view.text(Enum.LIMITS_HOURS);
+                    logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
                 }
             } else {
-                System.out.println("Hour is an integer");
-                logger.error("Required field not filled correctly");
+                view.text(Enum.MUST_BE_INTEGER);
+                logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
             }
         }
         return hour;
@@ -167,22 +178,22 @@ public class Date {
 
     public int getMinute() {
         for (; ; ) {
-            System.out.println("And the last - enter the minutes.");
-            input = new Input().setInput();
+            view.text(Enum.WRITE_MINUTE);
+            input = view.input();
             if (input.isEmpty()) {
-                System.out.println("This field cannot be empty!");
-                logger.error("Empty required field");
+                view.text(Enum.FIELD_CANT_BE_EMPTY);
+                logger.error(Enum.EMPTY_FIELD);
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) >= 0 && Integer.parseInt(input) < 60) {
                     minute = Integer.parseInt(input);
                     break;
                 } else {
-                    System.out.println("The minute cannot be less than 0 and greater than 59!");
-                    logger.error("Required field not filled correctly");
+                    view.text(Enum.LIMITS_MINUTE);
+                    logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
                 }
             } else {
-                System.out.println("Minute is an integer");
-                logger.error("Required field not filled correctly");
+                view.text(Enum.MUST_BE_INTEGER);
+                logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
             }
         }
         return minute;
@@ -190,22 +201,22 @@ public class Date {
 
     public int getInterval() {
         for (; ; ) {
-            System.out.println("Please input the repeat interval.");
-            input = new Input().setInput();
+            view.text(Enum.WRITE_INTERVAL);
+            input = view.input();
             if (input.isEmpty()) {
-                System.out.println("This field cannot be empty!");
-                logger.error("Empty required field");
+                view.text(Enum.FIELD_CANT_BE_EMPTY);
+                logger.error(Enum.EMPTY_FIELD);
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) == 0) {
-                    System.out.println("Interval is bigger than 0!");
-                    logger.error("Required field not filled correctly");
+                    view.text(Enum.LIMITS_INTERVAL);
+                    logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
                 } else {
                     interval = Integer.parseInt(input);
                     break;
                 }
             } else {
-                System.out.println("Interval is an integer");
-                logger.error("Required field not filled correctly");
+                view.text(Enum.MUST_BE_INTEGER);
+                logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
             }
         }
         return interval;

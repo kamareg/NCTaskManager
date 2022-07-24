@@ -1,7 +1,9 @@
 package ua.edu.sumdu.j2se.malikova.tasks.model;
 
 import org.apache.log4j.Logger;
-
+/**
+ * Factory for task list selection.
+ */
 public class TaskListFactory {
     public static final Logger logger = Logger.getLogger(TaskListFactory.class);
     public static AbstractTaskList createTaskList(ListTypes.types type) {

@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
+/**
+ * Contains methods for building a list of tasks that run in a certain period of time.
+ */
 public class Tasks {
     public static Iterable<Task> incoming(Iterable<Task> tasks, LocalDateTime start, LocalDateTime end) {
         return StreamSupport.stream(tasks.spliterator(), false)
@@ -29,12 +31,6 @@ public class Tasks {
                 }
                 key = task.nextTimeAfter(key);
             }
-        }
-        for (Map.Entry<LocalDateTime, Set<Task>> entry : calendarTasks.entrySet()) {
-            LocalDateTime dateTime = entry.getKey();
-            Set<Task> value = entry.getValue();
-            System.out.print("|" + dateTime + "| \t : \t");
-            System.out.println(value);
         }
             return calendarTasks;
     }

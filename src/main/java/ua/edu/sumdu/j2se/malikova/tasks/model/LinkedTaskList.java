@@ -3,7 +3,9 @@ package ua.edu.sumdu.j2se.malikova.tasks.model;
 import org.apache.log4j.Logger;
 import java.util.Iterator;
 import java.util.stream.Stream;
-
+/**
+ * A class containing constructors and methods for working with Linked Task List.
+ */
 public class LinkedTaskList extends AbstractTaskList {
 
     private static class Link {

@@ -3,12 +3,13 @@ package ua.edu.sumdu.j2se.malikova.tasks.model;
 import com.google.gson.*;
 import com.google.gson.stream.JsonWriter;
 import org.apache.log4j.Logger;
-
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-
+/**
+ * Contains methods for saving a list and reading from a list from a stream or file in binary or symbolic form.
+ */
 public class TaskIO {
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd''HH:mm:ss.n");
     public static final Logger logger = Logger.getLogger(TaskIO.class);

@@ -4,7 +4,9 @@ import org.apache.log4j.Logger;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.stream.Stream;
-
+/**
+ * A class containing constructors and methods for working with Array Task List.
+ */
 public class ArrayTaskList extends AbstractTaskList {
     private Task[] array = new Task[10];
     private int counter;

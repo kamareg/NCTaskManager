@@ -3,6 +3,9 @@ package ua.edu.sumdu.j2se.malikova.tasks.controller;
 import ua.edu.sumdu.j2se.malikova.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.malikova.tasks.view.View;
 
+/**
+ * A main controller.
+ */
 public abstract class Controller {
     public static final int MAIN_MENU_ACTION = 0;
     public static final int ADD_TASK_ACTION = 1;
@@ -14,6 +17,10 @@ public abstract class Controller {
 
     protected View view;
     protected int actionToDo = 0;
+    protected AbstractTaskList taskList;
+
+    public Controller() {
+    }
 
     public Controller(View view, int action) {
         this.actionToDo = action;
@@ -21,11 +28,10 @@ public abstract class Controller {
     }
 
     public boolean canProcess(int action) {
-        return action ==  actionToDo;
+        return action == actionToDo;
     }
 
     public int process(AbstractTaskList taskList) {
-        return view.printInfo(taskList);
+        return 0;
     }
-
 }

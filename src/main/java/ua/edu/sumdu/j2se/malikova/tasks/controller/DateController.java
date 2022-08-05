@@ -1,7 +1,7 @@
 package ua.edu.sumdu.j2se.malikova.tasks.controller;
 
 import org.apache.log4j.Logger;
-import ua.edu.sumdu.j2se.malikova.tasks.Enum;
+import ua.edu.sumdu.j2se.malikova.tasks.Messages;
 import ua.edu.sumdu.j2se.malikova.tasks.view.DateView;
 import ua.edu.sumdu.j2se.malikova.tasks.view.View;
 
@@ -45,22 +45,22 @@ public class DateController extends Controller {
 
     public int getYear() {
         for (; ; ) {
-            view.text(Enum.WRITE_YEAR);
+            view.text(Messages.WRITE_YEAR);
             input = view.input();
             if (input.isEmpty()) {
-                view.text(Enum.FIELD_CANT_BE_EMPTY);
-                logger.error(Enum.EMPTY_FIELD);
+                view.text(Messages.FIELD_CANT_BE_EMPTY);
+                logger.error(Messages.EMPTY_FIELD);
             } else if (input.matches("[0-9]*")) {
-                if (Integer.parseInt(input) >= Enum.START_MANAGER_YEAR && Integer.parseInt(input) < Enum.END_MANAGER_YEAR) {
+                if (Integer.parseInt(input) >= Messages.START_MANAGER_YEAR && Integer.parseInt(input) < Messages.END_MANAGER_YEAR) {
                     year = Integer.parseInt(input);
                     break;
                 } else {
-                    view.text(Enum.CANT_BE_LESS, String.valueOf(Enum.START_MANAGER_YEAR), Enum.CANT_BE_MORE, String.valueOf(Enum.END_MANAGER_YEAR));
-                    logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                    view.text(Messages.CANT_BE_LESS, String.valueOf(Messages.START_MANAGER_YEAR), Messages.CANT_BE_MORE, String.valueOf(Messages.END_MANAGER_YEAR));
+                    logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
                 }
             } else {
-                view.text(Enum.MUST_BE_INTEGER);
-                logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                view.text(Messages.MUST_BE_INTEGER);
+                logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
             }
         }
         return year;
@@ -69,7 +69,7 @@ public class DateController extends Controller {
     public int getMonth() {
         month = 0;
         do {
-            view.text(Enum.WRITE_MONTH);
+            view.text(Messages.WRITE_MONTH);
             input = view.input();
             switch (input) {
                 case ("JAN"), ("jan"), ("Jan"), ("January"), ("JANUARY"), ("january"), ("01"), ("1") -> {
@@ -109,8 +109,8 @@ public class DateController extends Controller {
                     month = 12;
                 }
                 default -> {
-                    view.text(Enum.FIELD_NOT_FILLED_CORRECTLY);
-                    logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                    view.text(Messages.FIELD_NOT_FILLED_CORRECTLY);
+                    logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
                 }
             }
         } while (!(month > 0 && month <= 12));
@@ -119,35 +119,35 @@ public class DateController extends Controller {
 
     public int getDate() {
         for (; ; ) {
-            view.text(Enum.WRITE_DAY);
+            view.text(Messages.WRITE_DAY);
             input = view.input();
             if (input.isEmpty()) {
-                view.text(Enum.FIELD_CANT_BE_EMPTY);
-                logger.error(Enum.EMPTY_FIELD);
+                view.text(Messages.FIELD_CANT_BE_EMPTY);
+                logger.error(Messages.EMPTY_FIELD);
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) > 0 && Integer.parseInt(input) <= 31) {
                     if (month == 2) {
                         if (Integer.parseInt(input) > 29) {
-                            view.text(Enum.LIMITS_DAYS);
-                            logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                            view.text(Messages.LIMITS_DAYS);
+                            logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
                             continue;
                         }
                     } else if (month == 4 || month == 6 || month == 9 || month == 11) {
                         if (Integer.parseInt(input) > 30) {
-                            view.text(Enum.LIMITS_DAYS);
-                            logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                            view.text(Messages.LIMITS_DAYS);
+                            logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
                             continue;
                         }
                     }
                     date = Integer.parseInt(input);
                     break;
                 } else {
-                    view.text(Enum.FIELD_NOT_FILLED_CORRECTLY);
-                    logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                    view.text(Messages.FIELD_NOT_FILLED_CORRECTLY);
+                    logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
                 }
             } else {
-                view.text(Enum.MUST_BE_INTEGER);
-                logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                view.text(Messages.MUST_BE_INTEGER);
+                logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
             }
         }
         return date;
@@ -155,22 +155,22 @@ public class DateController extends Controller {
 
     public int getHour() {
         for (; ; ) {
-            view.text(Enum.WRITE_HOUR);
+            view.text(Messages.WRITE_HOUR);
             input = view.input();
             if (input.isEmpty()) {
-                view.text(Enum.FIELD_CANT_BE_EMPTY);
-                logger.error(Enum.EMPTY_FIELD);
+                view.text(Messages.FIELD_CANT_BE_EMPTY);
+                logger.error(Messages.EMPTY_FIELD);
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) >= 0 && Integer.parseInt(input) < 24) {
                     hour = Integer.parseInt(input);
                     break;
                 } else {
-                    view.text(Enum.LIMITS_HOURS);
-                    logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                    view.text(Messages.LIMITS_HOURS);
+                    logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
                 }
             } else {
-                view.text(Enum.MUST_BE_INTEGER);
-                logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                view.text(Messages.MUST_BE_INTEGER);
+                logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
             }
         }
         return hour;
@@ -178,22 +178,22 @@ public class DateController extends Controller {
 
     public int getMinute() {
         for (; ; ) {
-            view.text(Enum.WRITE_MINUTE);
+            view.text(Messages.WRITE_MINUTE);
             input = view.input();
             if (input.isEmpty()) {
-                view.text(Enum.FIELD_CANT_BE_EMPTY);
-                logger.error(Enum.EMPTY_FIELD);
+                view.text(Messages.FIELD_CANT_BE_EMPTY);
+                logger.error(Messages.EMPTY_FIELD);
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) >= 0 && Integer.parseInt(input) < 60) {
                     minute = Integer.parseInt(input);
                     break;
                 } else {
-                    view.text(Enum.LIMITS_MINUTE);
-                    logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                    view.text(Messages.LIMITS_MINUTE);
+                    logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
                 }
             } else {
-                view.text(Enum.MUST_BE_INTEGER);
-                logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                view.text(Messages.MUST_BE_INTEGER);
+                logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
             }
         }
         return minute;
@@ -201,22 +201,22 @@ public class DateController extends Controller {
 
     public int getInterval() {
         for (; ; ) {
-            view.text(Enum.WRITE_INTERVAL);
+            view.text(Messages.WRITE_INTERVAL);
             input = view.input();
             if (input.isEmpty()) {
-                view.text(Enum.FIELD_CANT_BE_EMPTY);
-                logger.error(Enum.EMPTY_FIELD);
+                view.text(Messages.FIELD_CANT_BE_EMPTY);
+                logger.error(Messages.EMPTY_FIELD);
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) == 0) {
-                    view.text(Enum.LIMITS_INTERVAL);
-                    logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                    view.text(Messages.LIMITS_INTERVAL);
+                    logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
                 } else {
                     interval = Integer.parseInt(input);
                     break;
                 }
             } else {
-                view.text(Enum.MUST_BE_INTEGER);
-                logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                view.text(Messages.MUST_BE_INTEGER);
+                logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
             }
         }
         return interval;

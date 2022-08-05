@@ -1,7 +1,7 @@
 package ua.edu.sumdu.j2se.malikova.tasks.controller;
 
 import org.apache.log4j.Logger;
-import ua.edu.sumdu.j2se.malikova.tasks.Enum;
+import ua.edu.sumdu.j2se.malikova.tasks.Messages;
 import ua.edu.sumdu.j2se.malikova.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.malikova.tasks.view.ValidationView;
 import ua.edu.sumdu.j2se.malikova.tasks.view.View;
@@ -25,11 +25,11 @@ public class ValidationController extends Controller {
 
     public String titleValidation() {
         for (; ; ) {
-            view.text(Enum.TITLE_OF_THE_TASK);
+            view.text(Messages.TITLE_OF_THE_TASK);
             input = view.input();
             if (input.isEmpty()) {
-                logger.error(Enum.EMPTY_FIELD);
-                view.text(Enum.TITLE_CANT_BE_EMPTY);
+                logger.error(Messages.EMPTY_FIELD);
+                view.text(Messages.TITLE_CANT_BE_EMPTY);
             } else {
                 title = input;
                 break;
@@ -40,7 +40,7 @@ public class ValidationController extends Controller {
 
     public boolean repeatedValidation() {
         for (; ; ) {
-            view.text(Enum.REPEATEDLY_TASK);
+            view.text(Messages.REPEATEDLY_TASK);
             input = view.input();
             if (input.equals("-")) {
                 isRepeated = false;
@@ -49,8 +49,8 @@ public class ValidationController extends Controller {
                 isRepeated = true;
                 break;
             } else {
-                view.text(Enum.RIGHT_CHOICE);
-                logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                view.text(Messages.RIGHT_CHOICE);
+                logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
             }
         }
         return isRepeated;
@@ -60,22 +60,22 @@ public class ValidationController extends Controller {
         for (; ; ) {
             input = view.input();
             if (input.isEmpty()) {
-                logger.error(Enum.EMPTY_FIELD);
-                view.text(Enum.WARN_SEQUENCE_NUMBER);
+                logger.error(Messages.EMPTY_FIELD);
+                view.text(Messages.WARN_SEQUENCE_NUMBER);
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) == 0) {
-                    view.text(Enum.VALUE_OUT_OF_LIST_BOUNDS);
-                    logger.error(Enum.LIMIT_EXCEEDED);
+                    view.text(Messages.VALUE_OUT_OF_LIST_BOUNDS);
+                    logger.error(Messages.LIMIT_EXCEEDED);
                 } else if (Integer.parseInt(input) > taskList.size()) {
-                    view.text(Enum.VALUE_OUT_OF_LIST_BOUNDS);
-                    logger.error(Enum.LIMIT_EXCEEDED);
+                    view.text(Messages.VALUE_OUT_OF_LIST_BOUNDS);
+                    logger.error(Messages.LIMIT_EXCEEDED);
                 } else {
                     taskNumber = Integer.parseInt(input);
                     break;
                 }
             } else {
-                view.text(Enum.WARN_SEQUENCE_NUMBER);
-                logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                view.text(Messages.WARN_SEQUENCE_NUMBER);
+                logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
             }
         }
         return taskNumber;

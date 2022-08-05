@@ -3,7 +3,7 @@ package ua.edu.sumdu.j2se.malikova.tasks;
  * The class contains constants and text to communicate with the user.
  */
 
-public class Enum {
+public class Messages {
     public static final int START_MANAGER_YEAR = 2022;
     public static final int END_MANAGER_YEAR = 2100;
     public static final String TASK_MANAGER_STARTED = "Task Manager is started";

@@ -1,7 +1,7 @@
 package ua.edu.sumdu.j2se.malikova.tasks.controller;
 
 import org.apache.log4j.Logger;
-import ua.edu.sumdu.j2se.malikova.tasks.Enum;
+import ua.edu.sumdu.j2se.malikova.tasks.Messages;
 import ua.edu.sumdu.j2se.malikova.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.malikova.tasks.model.TaskIO;
 import ua.edu.sumdu.j2se.malikova.tasks.view.*;
@@ -30,12 +30,12 @@ public class MainController extends Controller {
         controllers.add(new CheckTaskController(new CheckTasksView(), Controller.TASK_LIST_ACTION));
         controllers.add(new EditTaskController(new EditTaskView(), Controller.EDIT_TASK_ACTION));
 
-        view.text(Enum.TASK_MANAGER_STARTED);
+        view.text(Messages.TASK_MANAGER_STARTED);
     }
 
     @Override
     public int process(AbstractTaskList taskList) {
-        view.text(Enum.MENU_PRINT);
+        view.text(Messages.MENU_PRINT);
         view.text(String.valueOf(Controller.ADD_TASK_ACTION), ". Add new task.");
         view.text(String.valueOf(Controller.REMOVE_TASK_ACTION), ". Remove task.");
         view.text(String.valueOf(Controller.EDIT_TASK_ACTION), ". Edit task.");
@@ -45,19 +45,19 @@ public class MainController extends Controller {
         for (; ; ) {
             input = view.input();
             if (input.isEmpty()) {
-                logger.error(Enum.EMPTY_FIELD);
-                view.text(Enum.WARN_SEQUENCE_NUMBER);
+                logger.error(Messages.EMPTY_FIELD);
+                view.text(Messages.WARN_SEQUENCE_NUMBER);
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) > Controller.EXIT_ACTION) {
-                    view.text(Enum.WARN_SEQUENCE_NUMBER);
-                    logger.error(Enum.LIMIT_EXCEEDED);
+                    view.text(Messages.WARN_SEQUENCE_NUMBER);
+                    logger.error(Messages.LIMIT_EXCEEDED);
                 } else {
                     action = Integer.parseInt(input);
                     break;
                 }
             } else {
-                view.text(Enum.WARN_SEQUENCE_NUMBER);
-                logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                view.text(Messages.WARN_SEQUENCE_NUMBER);
+                logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
             }
         }
             for (; ; ) {

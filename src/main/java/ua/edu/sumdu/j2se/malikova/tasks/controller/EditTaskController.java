@@ -1,7 +1,7 @@
 package ua.edu.sumdu.j2se.malikova.tasks.controller;
 
 import org.apache.log4j.Logger;
-import ua.edu.sumdu.j2se.malikova.tasks.Enum;
+import ua.edu.sumdu.j2se.malikova.tasks.Messages;
 import ua.edu.sumdu.j2se.malikova.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.malikova.tasks.model.Task;
 import ua.edu.sumdu.j2se.malikova.tasks.view.View;
@@ -29,16 +29,16 @@ public class EditTaskController extends Controller {
 
     public int process(AbstractTaskList taskList) {
         if (taskList.size() == 0) {
-            view.text(Enum.NO_TASKS_IN_LIST, Enum.ADD_TASKS_TO_LIST);
-            logger.warn(Enum.NO_TASKS_IN_LIST);
+            view.text(Messages.NO_TASKS_IN_LIST, Messages.ADD_TASKS_TO_LIST);
+            logger.warn(Messages.NO_TASKS_IN_LIST);
             return Controller.MAIN_MENU_ACTION;
         }
         view.listToPrint(taskList);
-        view.text(Enum.TASK_TO_EDIT, Enum.WARN_SEQUENCE_NUMBER);
+        view.text(Messages.TASK_TO_EDIT, Messages.WARN_SEQUENCE_NUMBER);
         taskNumber = new ValidationController().getTask(taskList);
         task = taskList.getTask(taskNumber - 1);
         view.text("Your choice is: ", task.getTitle());
-        view.text(Enum.PARAMETER_TO_EDIT);
+        view.text(Messages.PARAMETER_TO_EDIT);
         view.text("Choose from the list below:");
         view.text(String.valueOf(TASK_TITLE), ". Task title.");
         view.text(String.valueOf(TASK_ACTIVITY), ". Task activity. ");
@@ -49,77 +49,77 @@ public class EditTaskController extends Controller {
         } else {
             view.text(String.valueOf(TASK_TIME), ". Task time.");
         }
-        view.text(Enum.CANCEL_OPERATION, String.valueOf(Controller.MAIN_MENU_ACTION));
+        view.text(Messages.CANCEL_OPERATION, String.valueOf(Controller.MAIN_MENU_ACTION));
         for (; ; ) {
             input = view.input();
             if (input.isEmpty()) {
-                logger.error(Enum.EMPTY_FIELD);
-                view.text(Enum.WARN_SEQUENCE_NUMBER);
+                logger.error(Messages.EMPTY_FIELD);
+                view.text(Messages.WARN_SEQUENCE_NUMBER);
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) == 0) {
                     break;
                 } else if (task.isRepeated() && Integer.parseInt(input) > TASK_REPEAT_INTERVAL) {
-                    view.text(Enum.WARN_SEQUENCE_NUMBER);
-                    logger.error(Enum.LIMIT_EXCEEDED);
+                    view.text(Messages.WARN_SEQUENCE_NUMBER);
+                    logger.error(Messages.LIMIT_EXCEEDED);
                 } else if (!(task.isRepeated()) && Integer.parseInt(input) > TASK_TIME) {
-                    view.text(Enum.WARN_SEQUENCE_NUMBER);
-                    logger.error(Enum.LIMIT_EXCEEDED);
+                    view.text(Messages.WARN_SEQUENCE_NUMBER);
+                    logger.error(Messages.LIMIT_EXCEEDED);
                 } else {
                     switch (Integer.parseInt(input)) {
                         case TASK_TITLE -> {
                             task.setTitle(new ValidationController().titleValidation());
-                            view.text(Enum.OK_TASK_EDITED);
+                            view.text(Messages.OK_TASK_EDITED);
                             logger.info("Task title was changed.");
                         }
                         case TASK_ACTIVITY -> {
                             task.setActive(new ValidationController().repeatedValidation());
-                            view.text(Enum.OK_TASK_EDITED);
+                            view.text(Messages.OK_TASK_EDITED);
                             logger.info("Task activity was changed.");
                         }
                         case TASK_TIME -> {
                             if (task.isRepeated()) {
-                                view.text(Enum.WRITE_START_TIME);
+                                view.text(Messages.WRITE_START_TIME);
                                 start = new DateController().readyDate();
                                 if ((task.getEndTime()).isBefore(start)) {
-                                    view.text(Enum.END_BEFORE_START, Enum.TRY_AGAIN);
-                                    logger.warn(Enum.END_BEFORE_START);
+                                    view.text(Messages.END_BEFORE_START, Messages.TRY_AGAIN);
+                                    logger.warn(Messages.END_BEFORE_START);
                                     return Controller.MAIN_MENU_ACTION;
                                 }
                                 task.setStart(start);
-                                view.text(Enum.OK_TASK_STARTS, start);
+                                view.text(Messages.OK_TASK_STARTS, start);
                                 logger.info("Task start time was changed.");
                             } else {
-                                view.text(Enum.WRITE_TIME);
+                                view.text(Messages.WRITE_TIME);
                                 time = new DateController().readyDate();
                                 task.setTime(time);
-                                view.text(Enum.OK_TASK_TIME, time);
+                                view.text(Messages.OK_TASK_TIME, time);
                                 logger.info("Task time was changed.");
                             }
                         }
                         case TASK_END_TIME -> {
-                            view.text(Enum.WRITE_END_TIME);
+                            view.text(Messages.WRITE_END_TIME);
                             end = new DateController().readyDate();
                             if (end.isBefore(task.getStartTime())) {
-                                view.text(Enum.END_BEFORE_START, Enum.TRY_AGAIN);
-                                logger.warn(Enum.END_BEFORE_START);
+                                view.text(Messages.END_BEFORE_START, Messages.TRY_AGAIN);
+                                logger.warn(Messages.END_BEFORE_START);
                                 return Controller.MAIN_MENU_ACTION;
                             }
                             task.setEnd(end);
-                            view.text(Enum.OK_TASK_ENDS, end);
+                            view.text(Messages.OK_TASK_ENDS, end);
                             logger.info("Task end time was changed.");
                         }
                         case TASK_REPEAT_INTERVAL -> {
                             interval = new DateController().getInterval();
                             task.setInterval(interval);
-                            view.text(Enum.OK_TASK_INTERVAL, interval);
+                            view.text(Messages.OK_TASK_INTERVAL, interval);
                             logger.info("Task interval was changed.");
                         }
                     }
                     break;
                 }
             } else {
-                view.text(Enum.WARN_SEQUENCE_NUMBER);
-                logger.error(Enum.FIELD_NOT_FILLED_CORRECTLY);
+                view.text(Messages.WARN_SEQUENCE_NUMBER);
+                logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
             }
         }
         return Controller.MAIN_MENU_ACTION;

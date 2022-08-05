@@ -15,7 +15,7 @@ import java.io.File;
  */
 
 public class Main {
-    public static final Logger logger = Logger.getLogger(Main.class);
+     public static final Logger logger = Logger.getLogger(Main.class);
     public static File saver = new File("save.json");
     public static void main(String[] args) {
         AbstractTaskList taskList = new LinkedTaskList();

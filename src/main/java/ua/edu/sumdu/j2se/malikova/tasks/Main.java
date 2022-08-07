@@ -10,6 +10,7 @@ import ua.edu.sumdu.j2se.malikova.tasks.view.MainView;
 import ua.edu.sumdu.j2se.malikova.tasks.view.View;
 
 import java.io.File;
+import java.util.Timer;
 
 /**
  * Main starting class
@@ -18,6 +19,7 @@ import java.io.File;
 public class Main {
     public static final Logger logger = Logger.getLogger(Main.class);
     public static File saver = new File("save.json");
+    public static Timer timer = new Timer();
 
     public static void main(String[] args) {
         AbstractTaskList taskList = new LinkedTaskList();
@@ -32,6 +34,7 @@ public class Main {
         logger.info("Notificator is started");
         mainController.process(null);
         EndController.endProcess();
+        timer.cancel();
     }
 }
 

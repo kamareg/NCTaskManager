@@ -1,7 +1,7 @@
 package ua.edu.sumdu.j2se.malikova.tasks.view;
 
 import ua.edu.sumdu.j2se.malikova.tasks.model.AbstractTaskList;
-import ua.edu.sumdu.j2se.malikova.tasks.model.Input;
+
 import java.time.LocalDateTime;
 
 /**

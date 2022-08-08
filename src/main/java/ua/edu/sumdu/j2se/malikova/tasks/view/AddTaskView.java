@@ -10,27 +10,33 @@ import java.time.LocalDateTime;
  */
 public class AddTaskView extends View {
     public static final Logger logger = Logger.getLogger(AddTaskView.class);
-
-    public static void startTime(){
+    @Override
+    public void start(){
         System.out.println(Messages.WRITE_START_TIME);
     }
-    public static void endTime(){
+    @Override
+    public void end(){
         System.out.println(Messages.WRITE_END_TIME);
     }
-    public static void time(){
+    @Override
+    public void time(){
         System.out.println(Messages.WRITE_TIME);
     }
-    public static void endBeforeStart(){
+    @Override
+    public void endBeforeStart(){
         System.out.println(Messages.END_BEFORE_START + Messages.TRY_AGAIN);
         logger.warn(Messages.END_BEFORE_START);
     }
-    public static void okTime(String string, LocalDateTime time){
+    @Override
+    public void okTime(String string, LocalDateTime time){
         System.out.println("Ok, your task " + string + ": " + time);
     }
-    public static void okTime(String string, int time){
+    @Override
+    public void okTime(String string, int time){
         System.out.println("Ok, your task " + string + ": " + time);
     }
-    public static void okAdd(Task task){
+    @Override
+    public void okAdd(Task task){
         System.out.println(Messages.OK_TASK_ADDED);
         logger.info(task.getTitle() + "" + Messages.OK_TASK_ADDED);
     }

@@ -29,14 +29,17 @@ public class EditTaskController extends Controller {
 
     public int process(AbstractTaskList taskList) {
         if (taskList.size() == 0) {
-            view.text(Messages.NO_TASKS_IN_LIST, Messages.ADD_TASKS_TO_LIST);
-            logger.warn(Messages.NO_TASKS_IN_LIST);
+            view.noTasks();
             return Controller.MAIN_MENU_ACTION;
         }
         view.listToPrint(taskList);
+
         view.text(Messages.TASK_TO_EDIT, Messages.WARN_SEQUENCE_NUMBER);
+
+
         taskNumber = new ValidationController().getTask(taskList);
         task = taskList.getTask(taskNumber - 1);
+
         view.text("Your choice is: ", task.getTitle());
         view.text(Messages.PARAMETER_TO_EDIT);
         view.text("Choose from the list below:");

@@ -2,7 +2,6 @@ package ua.edu.sumdu.j2se.malikova.tasks.controller;
 
 import ua.edu.sumdu.j2se.malikova.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.malikova.tasks.model.Task;
-import ua.edu.sumdu.j2se.malikova.tasks.view.AddTaskView;
 import ua.edu.sumdu.j2se.malikova.tasks.view.View;
 import java.time.LocalDateTime;
 
@@ -24,30 +23,30 @@ public class AddTaskController extends Controller {
         title = new ValidationController().titleValidation();
         isRepeated = new ValidationController().repeatedValidation();
         if (isRepeated) {
-            AddTaskView.startTime();
+            view.start();
             start = new DateController().readyDate();
-            AddTaskView.okTime("start time", start);
+            view.okTime("start time", start);
 
-            AddTaskView.endTime();
+            view.end();
             end = new DateController().readyDate();
             if (end.isBefore(start)) {
-                AddTaskView.endBeforeStart();
+                view.endBeforeStart();
                 return Controller.MAIN_MENU_ACTION;
             }
-            AddTaskView.okTime("end time", end);
+            view.okTime("end time", end);
 
             interval = new DateController().getInterval();
-            AddTaskView.okTime("interval", interval);
+            view.okTime("interval", interval);
             task = new Task(title, start, end, interval);
         } else {
-            AddTaskView.time();
+            view.time();
             time = new DateController().readyDate();
-            AddTaskView.okTime("time", time);
+            view.okTime("time", time);
             task = new Task(title, time);
         }
         task.setActive(true);
         taskList.add(task);
-        AddTaskView.okAdd(task);
+        view.okAdd(task);
         return Controller.MAIN_MENU_ACTION;
     }
 }

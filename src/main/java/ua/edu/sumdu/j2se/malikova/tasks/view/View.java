@@ -10,47 +10,28 @@ import java.time.LocalDateTime;
  */
 
 public abstract class View {
-    public void okTime(String string, LocalDateTime time){
-    }
-    public void okTime(String string, int time){
-    }
-    public void okAdd(Task task) {
-    }
-    public void start(){
-    }
-    public void end(){
-    }
-    public void time(){
-    }
-    public void endBeforeStart(){
-    }
-    public void noTasks(){
+    public void okTime(String string, LocalDateTime time) {
     }
 
-
-
-    public String input() {
-        return new Input().setInput();
+    public void okTime(String string, int time) {
     }
 
-    public void text(String text) {
-        System.out.println(text);
+    public void okReady(Task task) {
     }
 
-    public void text(String text, LocalDateTime dateTime) {
-        System.out.println(text + dateTime);
+    public void start() {
     }
 
-    public void text(String text, int integer) {
-        System.out.println(text + integer);
+    public void end() {
     }
 
-    public void text(String firstText, String secondText) {
-        System.out.println(firstText + secondText);
+    public void time() {
     }
 
-    public void text(String one, String two, String three, String four) {
-        System.out.println(one + two + three + four);
+    public void endBeforeStart() {
+    }
+
+    public void noTasks() {
     }
 
     public void listToPrint(AbstractTaskList taskList) {

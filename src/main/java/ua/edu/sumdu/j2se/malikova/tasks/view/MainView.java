@@ -10,21 +10,19 @@ import ua.edu.sumdu.j2se.malikova.tasks.controller.Controller;
 public class MainView extends View {
     public static final Logger logger = Logger.getLogger(MainView.class);
 
-    public static void startPage() {
+    @Override
+    public void start() {
         System.out.println(Messages.TASK_MANAGER_STARTED);
     }
 
-    public static void printMainMenu() {
-        System.out.println(Messages.MENU_PRINT);
+    public static int printMenu() {
+        System.out.println("What do you want to do? Please, choose a number: ");
         System.out.println(Controller.ADD_TASK_ACTION + ". Add new task.");
         System.out.println(Controller.REMOVE_TASK_ACTION + ". Remove task.");
         System.out.println(Controller.EDIT_TASK_ACTION + ". Edit task.");
         System.out.println(Controller.TASK_LIST_ACTION + ". Check your tasks.");
         System.out.println(Controller.CALENDAR_ACTION + ". Set necessary time range.");
         System.out.println(Controller.EXIT_ACTION + ". Exit.");
-    }
-
-    public static int actionMainMenu() {
         for (; ; ) {
             String input = new Input().setInput();
             if (input.isEmpty()) {

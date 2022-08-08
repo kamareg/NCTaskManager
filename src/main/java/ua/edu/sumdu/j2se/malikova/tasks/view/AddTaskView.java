@@ -36,7 +36,7 @@ public class AddTaskView extends View {
         System.out.println("Ok, your task " + string + ": " + time);
     }
     @Override
-    public void okAdd(Task task){
+    public void okReady(Task task){
         System.out.println(Messages.OK_TASK_ADDED);
         logger.info(task.getTitle() + "" + Messages.OK_TASK_ADDED);
     }

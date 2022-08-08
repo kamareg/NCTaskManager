@@ -13,7 +13,7 @@ public class DateView extends View {
     public final Logger logger = Logger.getLogger(DateView.class);
     public int getYear() {
         for (; ; ) {
-            System.out.println(Messages.WRITE_YEAR);
+            System.out.println("Please, write the year.");
             input = new Input().setInput();
             if (input.isEmpty()) {
                 System.out.println(Messages.FIELD_CANT_BE_EMPTY);
@@ -22,7 +22,7 @@ public class DateView extends View {
                 if (Integer.parseInt(input) >= Messages.START_MANAGER_YEAR && Integer.parseInt(input) < Messages.END_MANAGER_YEAR) {
                     return Integer.parseInt(input);
                 } else {
-                    System.out.println(Messages.CANT_BE_LESS + Messages.START_MANAGER_YEAR + Messages.CANT_BE_MORE + Messages.END_MANAGER_YEAR);
+                    System.out.println("Cannot be less than " + Messages.START_MANAGER_YEAR + " and more than " + Messages.END_MANAGER_YEAR);
                     logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
                 }
             } else {
@@ -34,7 +34,7 @@ public class DateView extends View {
 
     public int getMonth() {
         do {
-            System.out.println(Messages.WRITE_MONTH);
+            System.out.println("Please, write the month.");
             input = new Input().setInput();
             switch (input) {
                 case ("JAN"), ("jan"), ("Jan"), ("January"), ("JANUARY"), ("january"), ("01"), ("1") -> {
@@ -84,7 +84,7 @@ public class DateView extends View {
 
     public int getDate() {
         for (; ; ) {
-            System.out.println(Messages.WRITE_DAY);
+            System.out.println("Please, write the day of month.");
             input = new Input().setInput();
             if (input.isEmpty()) {
                 System.out.println(Messages.FIELD_CANT_BE_EMPTY);
@@ -121,7 +121,7 @@ public class DateView extends View {
 
     public int getHour() {
         for (; ; ) {
-            System.out.println(Messages.WRITE_HOUR);
+            System.out.println("Now it's time for the hours.");
             input = new Input().setInput();
             if (input.isEmpty()) {
                 System.out.println(Messages.FIELD_CANT_BE_EMPTY);
@@ -130,7 +130,7 @@ public class DateView extends View {
                 if (Integer.parseInt(input) >= 0 && Integer.parseInt(input) < 24) {
                     return Integer.parseInt(input);
                 } else {
-                    System.out.println(Messages.LIMITS_HOURS);
+                    System.out.println("The hour cannot be less than 0 and greater than 23!");
                     logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
                 }
             } else {
@@ -142,7 +142,7 @@ public class DateView extends View {
 
     public int getMinute() {
         for (; ; ) {
-            System.out.println(Messages.WRITE_MINUTE);
+            System.out.println("And the last - enter the minutes.");
             input = new Input().setInput();
             if (input.isEmpty()) {
                 System.out.println(Messages.FIELD_CANT_BE_EMPTY);
@@ -151,7 +151,7 @@ public class DateView extends View {
                 if (Integer.parseInt(input) >= 0 && Integer.parseInt(input) < 60) {
                     return Integer.parseInt(input);
                 } else {
-                    System.out.println(Messages.LIMITS_MINUTE);
+                    System.out.println("The minute cannot be less than 0 and greater than 59!");
                     logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
                 }
             } else {
@@ -162,14 +162,14 @@ public class DateView extends View {
     }
     public int getInterval() {
         for (; ; ) {
-            System.out.println(Messages.WRITE_INTERVAL);
+            System.out.println("Please input the repeat interval.");
             input = new Input().setInput();
             if (input.isEmpty()) {
                 System.out.println(Messages.FIELD_CANT_BE_EMPTY);
                 logger.error(Messages.EMPTY_FIELD);
             } else if (input.matches("[0-9]*")) {
                 if (Integer.parseInt(input) == 0) {
-                    System.out.println(Messages.LIMITS_INTERVAL);
+                    System.out.println("Interval is bigger than 0!");
                     logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
                 } else {
                     return Integer.parseInt(input);

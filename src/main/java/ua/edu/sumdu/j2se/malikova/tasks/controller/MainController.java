@@ -27,13 +27,12 @@ public class MainController extends Controller {
         controllers.add(new CheckTaskController(new CheckTasksView(), Controller.TASK_LIST_ACTION));
         controllers.add(new EditTaskController(new EditTaskView(), Controller.EDIT_TASK_ACTION));
 
-        MainView.startPage();
+        view.start();
     }
 
     @Override
     public int process(AbstractTaskList taskList) {
-        MainView.printMainMenu();
-        int action = MainView.actionMainMenu();
+        int action = MainView.printMenu();
         for (; ; ) {
             for (Controller controller : controllers) {
                 if (controller.canProcess(action)) {

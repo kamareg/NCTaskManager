@@ -46,7 +46,7 @@ public class AddTaskController extends Controller {
         }
         task.setActive(true);
         taskList.add(task);
-        view.okAdd(task);
+        view.okReady(task);
         return Controller.MAIN_MENU_ACTION;
     }
 }

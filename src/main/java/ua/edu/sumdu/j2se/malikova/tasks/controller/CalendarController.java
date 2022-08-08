@@ -34,7 +34,7 @@ public class CalendarController extends Controller {
             return Controller.MAIN_MENU_ACTION;
         }
         view.okTime("ends", second);
-        view.okAdd(null);
+        view.okReady(null);
 
         SortedMap<LocalDateTime, Set<Task>> calendar = Tasks.calendar(taskList,first,second);
         for (Map.Entry<LocalDateTime, Set<Task>> entry : calendar.entrySet()) {

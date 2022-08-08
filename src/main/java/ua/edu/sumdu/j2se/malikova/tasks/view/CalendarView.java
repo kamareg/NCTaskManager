@@ -21,12 +21,12 @@ public class CalendarView extends View {
 
     @Override
     public void start() {
-        System.out.println(Messages.CALENDAR_BEGIN);
+        System.out.println("You can view the task calendar in the required range from start to end. \nPlease enter the first point (start). ");
     }
 
     @Override
     public void end() {
-        System.out.println(Messages.ENTER_SECOND_POINT);
+        System.out.println("Please enter the second point (end).");
     }
 
     @Override
@@ -41,8 +41,8 @@ public class CalendarView extends View {
     }
 
     @Override
-    public void okAdd(Task task) {
-        System.out.println(Messages.READY_CALENDAR);
+    public void okReady(Task task) {
+        System.out.println("Here is your calendar: \n");
     }
 
     public static void calendarViewer(LocalDateTime time, Set value) {

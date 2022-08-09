@@ -12,7 +12,7 @@ public class CheckTasksView extends View{
 
     @Override
     public void noTasks() {
-        System.out.println(Messages.NO_TASKS_IN_LIST + Messages.ADD_TASKS_TO_LIST);
+        System.out.println(new StringBuilder(Messages.NO_TASKS_IN_LIST).append(Messages.ADD_TASKS_TO_LIST));
         logger.warn(Messages.NO_TASKS_IN_LIST);
     }
 

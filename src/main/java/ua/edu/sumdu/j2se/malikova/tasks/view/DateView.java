@@ -22,7 +22,7 @@ public class DateView extends View {
                 if (Integer.parseInt(input) >= Messages.START_MANAGER_YEAR && Integer.parseInt(input) < Messages.END_MANAGER_YEAR) {
                     return Integer.parseInt(input);
                 } else {
-                    System.out.println("Cannot be less than " + Messages.START_MANAGER_YEAR + " and more than " + Messages.END_MANAGER_YEAR);
+                    System.out.println(new StringBuilder("Cannot be less than ").append(Messages.START_MANAGER_YEAR).append(" and more than ").append(Messages.END_MANAGER_YEAR));
                     logger.error(Messages.FIELD_NOT_FILLED_CORRECTLY);
                 }
             } else {

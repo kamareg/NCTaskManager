@@ -24,21 +24,21 @@ public class AddTaskView extends View {
     }
     @Override
     public void endBeforeStart(){
-        System.out.println(Messages.END_BEFORE_START + Messages.TRY_AGAIN);
+        System.out.println(new StringBuilder().append(Messages.END_BEFORE_START).append(Messages.TRY_AGAIN));
         logger.warn(Messages.END_BEFORE_START);
     }
     @Override
     public void okTime(String string, LocalDateTime time){
-        System.out.println("Ok, your task " + string + ": " + time);
+        System.out.println(new StringBuilder().append("Ok, your task ").append(string).append(": ").append(time));
     }
     @Override
     public void okTime(String string, int time){
-        System.out.println("Ok, your task " + string + ": " + time);
+        System.out.println(new StringBuilder().append("Ok, your task ").append(string).append(": ").append(time));
     }
     @Override
     public void okReady(Task task){
         System.out.println(Messages.OK_TASK_ADDED);
-        logger.info(task.getTitle() + "" + Messages.OK_TASK_ADDED);
+        logger.info(new StringBuilder().append(task.getTitle()).append(" ").append(Messages.OK_TASK_ADDED));
     }
 }
 

@@ -160,9 +160,10 @@ public class Task implements Cloneable, Serializable {
 
     @Override
     public String toString() {
-        String description;
+        String string;
         String activity;
         String repeated;
+        StringBuilder description = new StringBuilder();
         if (this.active) {
             activity = ", that is active";
         } else {
@@ -174,11 +175,11 @@ public class Task implements Cloneable, Serializable {
             repeated = " and not repeated.";
         }
         if (end == null && start == null && interval == 0) {
-            description = "Task title \"" + title + "\", executed at the specified time " + time + activity + repeated;
+          string = description.append("Task title \"").append(title).append("\", executed at the specified time ").append(time).append(activity).append(repeated).toString();
         } else {
-            description = "Task title \"" + title + "\", that begins at " + start + ", ends at " + end + ", has task time interval " + interval + activity + repeated;
+          string = description.append("Task title \"").append(title).append("\", that begins at ").append(start).append(", ends at ").append(end).append(", has task time interval ").append(interval).append(activity).append(repeated).toString();
         }
-        return description;
+        return string;
     }
 
     @Override

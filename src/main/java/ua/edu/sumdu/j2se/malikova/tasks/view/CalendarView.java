@@ -3,7 +3,6 @@ package ua.edu.sumdu.j2se.malikova.tasks.view;
 import org.apache.log4j.Logger;
 import ua.edu.sumdu.j2se.malikova.tasks.Messages;
 import ua.edu.sumdu.j2se.malikova.tasks.model.Task;
-
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -15,7 +14,7 @@ public class CalendarView extends View {
 
     @Override
     public void noTasks() {
-        System.out.println(Messages.NO_TASKS_IN_LIST + Messages.ADD_TASKS_TO_LIST);
+        System.out.println(new StringBuilder().append(Messages.NO_TASKS_IN_LIST).append(Messages.ADD_TASKS_TO_LIST));
         logger.warn(Messages.NO_TASKS_IN_LIST);
     }
 
@@ -31,12 +30,12 @@ public class CalendarView extends View {
 
     @Override
     public void okTime(String string, LocalDateTime time) {
-        System.out.println("Ok, your calendar range " + string + " at " + time);
+        System.out.println(new StringBuilder().append("Ok, your calendar range ").append(string).append(" at ").append(time));
     }
 
     @Override
     public void endBeforeStart() {
-        System.out.println(Messages.SECOND_BEFORE_FIRST + Messages.TRY_AGAIN);
+        System.out.println(new StringBuilder().append(Messages.SECOND_BEFORE_FIRST).append(Messages.TRY_AGAIN));
         logger.warn(Messages.SECOND_BEFORE_FIRST);
     }
 
@@ -46,7 +45,7 @@ public class CalendarView extends View {
     }
 
     public static void calendarViewer(LocalDateTime time, Set value) {
-        System.out.print("|" + time + "| \t : \t");
+        System.out.print(new StringBuilder().append("|").append(time).append("| \t : \t"));
         System.out.println(value);
     }
 }

@@ -17,14 +17,14 @@ public class EditTaskView extends View {
 
     @Override
     public void noTasks() {
-        System.out.println(Messages.NO_TASKS_IN_LIST + Messages.ADD_TASKS_TO_LIST);
+        System.out.println(new StringBuilder(Messages.NO_TASKS_IN_LIST).append(Messages.ADD_TASKS_TO_LIST));
         logger.warn(Messages.NO_TASKS_IN_LIST);
     }
 
     @Override
     public void listToPrint(AbstractTaskList taskList) {
         System.out.println(taskList);
-        System.out.println("What task do you want to edit? " + Messages.WARN_SEQUENCE_NUMBER);
+        System.out.println(new StringBuilder("What task do you want to edit? ").append(Messages.WARN_SEQUENCE_NUMBER));
     }
 
     @Override
@@ -34,19 +34,19 @@ public class EditTaskView extends View {
 
     @Override
     public void endBeforeStart() {
-        System.out.println(Messages.END_BEFORE_START + Messages.TRY_AGAIN);
+        System.out.println(new StringBuilder(Messages.END_BEFORE_START).append(Messages.TRY_AGAIN));
         logger.warn(Messages.END_BEFORE_START);
     }
 
     @Override
     public void okTime(String string, LocalDateTime time) {
-        System.out.println("Ok, your task " + string + ": " + time);
+        System.out.println(new StringBuilder("Ok, your task ").append(string).append(": ").append(time));
         logger.info("Task was changed.");
     }
 
     @Override
     public void okTime(String string, int time) {
-        System.out.println("Ok, your task " + string + ": " + time);
+        System.out.println(new StringBuilder("Ok, your task ").append(string).append(": ").append(time));
         logger.info("Task was changed.");
     }
 
@@ -61,11 +61,7 @@ public class EditTaskView extends View {
     }
 
     public static void menu(Task task) {
-        System.out.println("Your choice is: " + task.getTitle());
-        System.out.println("What do you want to edit?");
-        System.out.println("Choose from the list below:");
-        System.out.println(TASK_TITLE + ". Task title.");
-        System.out.println(TASK_ACTIVITY + ". Task activity. ");
+        System.out.println(new StringBuilder("Your choice is: " + task.getTitle()).append("\nWhat do you want to edit?").append("\nChoose from the list below:").append(TASK_TITLE).append(". Task title.").append(TASK_ACTIVITY).append(". Task activity. "));
         if (task.isRepeated()) {
             System.out.println(TASK_TIME + ". Task start time.");
             System.out.println(TASK_END_TIME + ". Task end time.");

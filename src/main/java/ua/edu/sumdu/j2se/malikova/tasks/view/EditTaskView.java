@@ -61,15 +61,15 @@ public class EditTaskView extends View {
     }
 
     public static void menu(Task task) {
-        System.out.println(new StringBuilder("Your choice is: " + task.getTitle()).append("\nWhat do you want to edit?").append("\nChoose from the list below:").append(TASK_TITLE).append(". Task title.").append(TASK_ACTIVITY).append(". Task activity. "));
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Your choice is: ").append(task.getTitle()).append("\nWhat do you want to edit?").append("\nChoose from the list below:\n").append(TASK_TITLE).append(". Task title.\n").append(TASK_ACTIVITY).append(". Task activity. \n");
         if (task.isRepeated()) {
-            System.out.println(TASK_TIME + ". Task start time.");
-            System.out.println(TASK_END_TIME + ". Task end time.");
-            System.out.println(TASK_REPEAT_INTERVAL + ". Task repeated interval.");
+            stringBuilder.append(TASK_TIME).append(". Task start time.\n").append(TASK_END_TIME).append(". Task end time.\n").append(TASK_REPEAT_INTERVAL).append(". Task repeated interval.\n");
         } else {
-            System.out.println(TASK_TIME + ". Task time.");
+            stringBuilder.append(TASK_TIME).append(". Task time.\n");
         }
-        System.out.println("If you want to cancel this process please put " + Controller.MAIN_MENU_ACTION);
+        stringBuilder.append("If you want to cancel this process please put ").append(Controller.MAIN_MENU_ACTION);
+        System.out.println(stringBuilder);
     }
 
     public static int choice(Task task) {

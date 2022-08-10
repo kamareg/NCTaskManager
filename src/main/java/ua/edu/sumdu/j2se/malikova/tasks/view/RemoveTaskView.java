@@ -12,7 +12,7 @@ public class RemoveTaskView extends View {
     public final Logger logger = Logger.getLogger(RemoveTaskView.class);
     @Override
     public void noTasks() {
-        System.out.println(Messages.NO_TASKS_IN_LIST + Messages.ADD_TASKS_TO_LIST);
+        System.out.println(new StringBuilder().append(Messages.NO_TASKS_IN_LIST).append(Messages.ADD_TASKS_TO_LIST));
         logger.warn(Messages.NO_TASKS_IN_LIST);
     }
     @Override
@@ -22,12 +22,12 @@ public class RemoveTaskView extends View {
 
     @Override
     public void start() {
-        System.out.println("What task do you want to delete? " + Messages.WARN_SEQUENCE_NUMBER);
+        System.out.println(new StringBuilder().append("What task do you want to delete? ").append(Messages.WARN_SEQUENCE_NUMBER));
     }
 
     @Override
     public void okReady(Task task) {
-        System.out.println("Task '" + task.getTitle() + "' was removed.");
-        logger.info("Task '" + task.getTitle() + "' was removed.");
+        System.out.println(new StringBuilder().append("Task '").append(task.getTitle()).append("' was removed."));
+        logger.info(new StringBuilder().append("Task '").append(task.getTitle()).append("' was removed."));
     }
 }

@@ -9,6 +9,8 @@ import java.time.format.DateTimeFormatter;
  */
 public class NotificatorView extends View{
     public static void notification(Task task){
-        System.out.println("The task '" + task.getTitle() + "' is started at " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd''HH:mm:ss")));
+        System.out.println(new StringBuilder().append("The task '")
+                .append(task.getTitle()).append("' is started at ")
+                .append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd''HH:mm:ss"))));
     }
 }

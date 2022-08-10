@@ -16,13 +16,16 @@ public class MainView extends View {
     }
 
     public static int printMenu() {
-        System.out.println("What do you want to do? Please, choose a number: ");
-        System.out.println(Controller.ADD_TASK_ACTION + ". Add new task.");
-        System.out.println(Controller.REMOVE_TASK_ACTION + ". Remove task.");
-        System.out.println(Controller.EDIT_TASK_ACTION + ". Edit task.");
-        System.out.println(Controller.TASK_LIST_ACTION + ". Check your tasks.");
-        System.out.println(Controller.CALENDAR_ACTION + ". Set necessary time range.");
-        System.out.println(Controller.EXIT_ACTION + ". Exit.");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("What do you want to do? Please, choose a number: \n")
+                .append(Controller.ADD_TASK_ACTION).append(". Add new task.\n")
+                .append(Controller.REMOVE_TASK_ACTION).append(". Remove task.\n")
+                .append(Controller.EDIT_TASK_ACTION).append(". Edit task.\n")
+                .append(Controller.TASK_LIST_ACTION).append(". Check your tasks.\n")
+                .append(Controller.CALENDAR_ACTION).append(". Set necessary time range.\n")
+                .append(Controller.EXIT_ACTION).append(". Exit.\n");
+        System.out.println(stringBuilder);
+
         for (; ; ) {
             String input = new Input().setInput();
             if (input.isEmpty()) {
